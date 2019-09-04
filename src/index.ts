@@ -4,13 +4,12 @@ import dotenv = require("dotenv");
 const app = express();
 
 dotenv.config();
-import Database from "./dbUtil/PromiseWrapper";
+import Database from "./db_Util/PromiseWrapper";
 
-app.get("/message", async (req, res) => {
+app.get("/api/starter_cards", async (req, res) => {
   let db = new Database();
-  let cardName = await db.query("SELECT card_name FROM cards LIMIT 1");
-  cardName = cardName[0].card_name;
-  res.json({message: cardName});
+  let starterCards = await db.query("SELECT id, card_name AS name, is_starter as isStarter FROM cards WHERE is_starter = 1");
+  res.json({cards: starterCards});
 });
 
 app.listen(3001, () => {
