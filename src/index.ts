@@ -6,11 +6,19 @@ const app = express();
 dotenv.config();
 import Database from "./db_Util/PromiseWrapper";
 
-app.get("/api/starter_cards", async (req, res) => {
+app.get("/api/starter", async (req, res) => {
   let db = new Database();
-  let starterCards = await db.query("SELECT id, card_name AS name, is_starter as isStarter FROM cards WHERE is_starter = 1");
-  res.json({cards: starterCards});
+  let cards = await db.query("SELECT id, card_name AS name, is_starter as isStarter FROM cards WHERE is_starter = 1");
+  let events = await db.query(`SELECT id, event_name AS name,
+    event_description AS description,
+    is_starter AS isStarter,
+    hidden_description AS hiddenDesc
+    FROM events
+    WHERE is_starter = 1`);
+  await db.close();
+  res.json({cards, events})
 });
+
 
 app.listen(3001, () => {
   console.log("Express server has started");
