@@ -7,6 +7,7 @@ export interface Effect {
   revealHidden: boolean
 }
 
+// the JSON format when responding to a GET combination request
 export interface ComboResponse {
   comboDesc: string,
   resultDesc: string[] | string,
