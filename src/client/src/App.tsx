@@ -3,7 +3,8 @@ import {Card, Event} from '../types/game'
 
 interface State {
   starterCards : Card[],
-  starterEvents: Event[]
+  starterEvents: Event[],
+  combinationDesc: string
 }
 
 class App extends React.Component<{}, State> {
@@ -12,14 +13,15 @@ class App extends React.Component<{}, State> {
     super(props);
     this.state = {
       starterCards : [],
-      starterEvents : []
+      starterEvents : [],
+      combinationDesc: ""
     }
   }
 
   componentDidMount = () => {
     fetch('/api/starter')
     .then(res => res.json())
-    .then(res => this.setState({starterCards: res.cards, starterEvents: res.events}))
+    .then(res => this.setState({starterCards: res.cards, starterEvents: res.events}));
   }
 
   supplyCardComponents = (): React.ReactNode[] => this.state.starterCards.map(card => <h2 key={card.id}>{card.name}</h2>);

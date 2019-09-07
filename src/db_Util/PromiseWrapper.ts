@@ -9,7 +9,7 @@ export default class Database {
     this.connection = mysql.createConnection(config);
   }
 
-  query(sql: string, args?: string[]): Promise<any>{
+  query(sql: string, args?: string[]): Promise<any[]>{
     return new Promise((resolve, reject) => {
       this.connection.query(sql, args, (err, results) => {
         if(err){
