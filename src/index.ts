@@ -9,13 +9,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 import Database from "./db_Util/PromiseWrapper";
 import {ComboResponse} from "./types/API";
+import * as game from './types/game';
 import * as getCombo from './functions/getCombo';
 
 // get all the cards and events needed at the start of the game
 app.get("/api/start", async (req, res) => {
   let db = new Database();
-  let cards = await db.query("SELECT id, card_name AS name, is_starter as isStarter FROM cards");
-  let events = await db.query(`SELECT id, event_name AS name,
+  let cards: game.Card[] = await db.query("SELECT id, card_name AS name, is_starter as isStarter FROM cards");
+  let events: game.Event[] = await db.query(`SELECT id, event_name AS name,
     event_description AS description,
     is_starter AS isStarter,
     hidden_description AS hiddenDesc
