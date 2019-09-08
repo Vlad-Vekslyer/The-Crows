@@ -12,15 +12,14 @@ import {Effect, ComboResponse} from "./types/API";
 import * as getCombo from './functions/getCombo';
 
 // get all the cards and eventst that are available at the start of a new game
-app.get("/api/starter", async (req, res) => {
+app.get("/api/start", async (req, res) => {
   let db = new Database();
-  let cards = await db.query("SELECT id, card_name AS name, is_starter as isStarter FROM cards WHERE is_starter = 1");
+  let cards = await db.query("SELECT id, card_name AS name, is_starter as isStarter FROM cards");
   let events = await db.query(`SELECT id, event_name AS name,
     event_description AS description,
     is_starter AS isStarter,
     hidden_description AS hiddenDesc
-    FROM events
-    WHERE is_starter = 1`);
+    FROM events`);
   await db.close();
   res.json({cards, events})
 });
