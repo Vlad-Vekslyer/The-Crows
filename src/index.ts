@@ -8,10 +8,10 @@ dotenv.config();
 app.use(bodyParser.urlencoded({extended: true}));
 
 import Database from "./db_Util/PromiseWrapper";
-import {Effect, ComboResponse} from "./types/API";
+import {ComboResponse} from "./types/API";
 import * as getCombo from './functions/getCombo';
 
-// get all the cards and eventst that are available at the start of a new game
+// get all the cards and events needed at the start of the game
 app.get("/api/start", async (req, res) => {
   let db = new Database();
   let cards = await db.query("SELECT id, card_name AS name, is_starter as isStarter FROM cards");
@@ -21,6 +21,7 @@ app.get("/api/start", async (req, res) => {
     hidden_description AS hiddenDesc
     FROM events`);
   await db.close();
+  events.forEach(event => event.isStarter = !!event.isStarter);
   res.json({cards, events})
 });
 
