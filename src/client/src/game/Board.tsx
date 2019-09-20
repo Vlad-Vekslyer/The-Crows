@@ -1,5 +1,6 @@
 import React from "react";
 import {Event, Card} from "../../../types/game"
+import EventDisplay from "./EventDisplay"
 
 interface State {
   // storage contains cards/events currently out of the game
@@ -10,8 +11,8 @@ interface State {
   cardPool: Card[],
   eventDiscard: Event[],
   cardDiscard: Card[],
-  currentEvent: Event | undefined,
-  hand: Card[]
+  hand: Card[],
+  currentEvent: Event
 }
 
 class Board extends React.Component<{}, State> {
@@ -24,11 +25,11 @@ class Board extends React.Component<{}, State> {
       cardPool: [],
       eventDiscard: [],
       cardDiscard: [],
-      currentEvent: undefined,
-      hand: []
+      hand: [],
+      currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
+    this.drawEvent = this.drawEvent.bind(this);
     this.shuffle = this.shuffle.bind(this);
-    this.draw = this.draw.bind(this);
   }
 
   shuffle(pile: Event[]): void;
@@ -44,33 +45,14 @@ class Board extends React.Component<{}, State> {
     ('hiddenDesc' in shuffledPile[0]) ? this.setState({eventPool: shuffledPile}) : this.setState({cardPool: shuffledPile});
   }
 
-  draw(): void{
-    for(var i = 0; i < 3; i ++) {
-      if(this.state.hand.length < 3){
-        this.setState(prevState => {
-          console.log(prevState);
-          let {hand, cardPool} = prevState;
-          let card : Card = cardPool[prevState.cardPool.length - 1];
-          hand[prevState.hand.length] = card;
-          cardPool.splice(cardPool.length - 1);
-          return {
-            hand,
-            cardPool
-          }
-        });
-      }
-      if(!this.state.currentEvent){
-        this.setState(prevState => {
-          let eventPool = prevState.eventPool;
-          let event: Event = eventPool[eventPool.length - 1];
-          eventPool.splice(eventPool.length - 1);
-          return {
-            currentEvent: event,
-            eventPool
-          }
-        });
-      }
-    }
+  drawEvent(): void{
+    this.setState(prevState => {
+      let {eventPool, eventDiscard} = prevState;
+      // slice off the last item in the event pool and save it to a variable
+      let currentEvent: Event = eventPool.splice(eventPool.length - 1)[0];
+      eventDiscard.push(currentEvent);
+      return {eventDiscard, eventPool, currentEvent}
+    });
   }
 
   // makes initial API calls to receive all cards and events
@@ -83,17 +65,17 @@ class Board extends React.Component<{}, State> {
         cardPool: res.cards.filter((card: Card) => card.isStarter),
         eventStorage: res.events.filter((event: Event) => !event.isStarter),
         eventPool: res.events.filter((event: Event) => event.isStarter)
-      })
+      });
+      this.drawEvent();
     })
   }
 
   render(){
-    console.log(this.state);
     return(
       <div>
-        {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1>{card.name}</h1>}) : "Loading...."}
+        {this.state.currentEvent ? <EventDisplay event={this.state.currentEvent}/> : "Loading...."}
+        {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
-        <button onClick={() => this.draw()}>Draw</button>
       </div>
 
     )
