@@ -71,7 +71,7 @@ class Board extends React.Component<{}, State> {
     })
   }
 
-  drawEvent(): void{
+  drawEvent(): void {
     this.setState(prevState => {
       let {eventPool} = prevState;
       // slice off the last item in the event pool and save it to a variable
@@ -92,22 +92,22 @@ class Board extends React.Component<{}, State> {
         eventPool: res.events.filter((event: Event) => event.isStarter)
       });
       this.shuffle(this.state.cardPool);
-      this.drawCards();
       this.drawEvent();
+      this.drawCards();
     })
   }
+
+//         {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
 
   render(){
     return(
       <div>
         {this.state.currentEvent ? <EventDisplay event={this.state.currentEvent}/> : "Loading...."}
-        {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
         <h2>Hand:</h2>
         {this.state.hand.length ? <Hand eventId={this.state.currentEvent.id} hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
       </div>
-
     )
   }
 }
