@@ -28,6 +28,7 @@ class Board extends React.Component<{}, State> {
       hand: [],
       currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
+    this.discardFromHand = this.discardFromHand.bind(this);
     this.drawEvent = this.drawEvent.bind(this);
     this.shuffle = this.shuffle.bind(this);
   }
@@ -80,6 +81,17 @@ class Board extends React.Component<{}, State> {
     });
   }
 
+  // discard a certain card from hand, add it to discard pile and return it
+  discardFromHand(card: Card): Card {
+    let hand: Card[] = [...this.state.hand];
+    let cardDiscard: Card[] = [...this.state.cardDiscard];
+    let cardIndex: number = hand.indexOf(card);
+    let discardedCard: Card = hand.splice(cardIndex, 1)[0];
+    cardDiscard.push(discardedCard);
+    this.setState({hand, cardDiscard});
+    return discardedCard;
+  }
+
   // makes initial API calls to receive all cards and events
   componentDidMount(){
     fetch('/api/start')
@@ -104,7 +116,7 @@ class Board extends React.Component<{}, State> {
       <div>
         {this.state.currentEvent ? <EventDisplay event={this.state.currentEvent}/> : "Loading...."}
         <h2>Hand:</h2>
-        {this.state.hand.length ? <Hand eventId={this.state.currentEvent.id} hand={this.state.hand}/> : "No hand"}
+        {this.state.hand.length ? <Hand eventId={this.state.currentEvent.id} discard={this.discardFromHand} hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
       </div>

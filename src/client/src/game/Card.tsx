@@ -4,7 +4,8 @@ import {Card} from "../../../types/game"
 interface Props {
   card: Card,
   id: number,
-  eventId: number
+  eventId: number,
+  discard: (card: Card) => Card
 }
 
 interface State {
@@ -29,7 +30,7 @@ class CardDisplay extends React.Component<Props, State>{
     return(
       <div className="card">
         <h3>{this.props.card.name}</h3>
-        <button>{this.state.comboDesc}</button>
+        <button onClick={() => this.props.discard(this.props.card)}>{this.state.comboDesc}</button>
       </div>
     )
   }
