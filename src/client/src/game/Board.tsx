@@ -103,7 +103,7 @@ class Board extends React.Component<{}, State> {
         {this.state.currentEvent ? <EventDisplay event={this.state.currentEvent}/> : "Loading...."}
         {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
         <h2>Hand:</h2>
-        {this.state.hand.length ? <Hand hand={this.state.hand}/>: "No hand"}
+        {this.state.hand.length ? <Hand eventId={this.state.currentEvent.id} hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
       </div>

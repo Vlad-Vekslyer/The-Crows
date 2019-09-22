@@ -41,7 +41,8 @@ export async function findEffects(db: Database, comboResponse: ComboResponse, ef
         remove_event AS removeEvent,
         draw_extra AS drawExtra,
         hold_event AS holdEvent,
-        reveal_hidden AS revealHidden
+        reveal_hidden AS revealHidden,
+        add_card AS addCard
         FROM effects
         WHERE id=${effectId}`));
     });
