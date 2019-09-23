@@ -1,18 +1,31 @@
 import React from "react";
 import {Event} from "../../../types/game"
 
-interface Props{
+interface Props {
   event: Event
 }
 
-function EventDisplay(props: Props){
-  return(
-    <div id="event-display">
-      <header>{props.event.name}</header>
-      <p className="desc">{props.event.description}</p>
-      <p className="hidden desc">{props.event.hiddenDesc}</p>
-    </div>
-  )
+interface State {
+  eventDescription: string
+}
+
+class EventDisplay extends React.Component<Props, State>{
+  constructor(props: Props){
+    super(props);
+    this.state = {
+      eventDescription: ""
+    }
+  }
+
+  render(){
+    return(
+      <div id="event-display">
+        <header>{this.props.event.name}</header>
+        <textarea readOnly value={this.props.event.description} className="desc"/>
+        <p className="hidden desc">{this.props.event.hiddenDesc}</p>
+      </div>
+    )
+  }
 }
 
 export default EventDisplay;

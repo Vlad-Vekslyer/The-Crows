@@ -31,6 +31,7 @@ class Board extends React.Component<{}, State> {
     this.discardFromHand = this.discardFromHand.bind(this);
     this.drawEvent = this.drawEvent.bind(this);
     this.shuffle = this.shuffle.bind(this);
+    this.appendToEvent = this.appendToEvent.bind(this);
   }
 
   shuffle(pile: Event[]): void;
@@ -92,6 +93,16 @@ class Board extends React.Component<{}, State> {
     return discardedCard;
   }
 
+  // add additional text beneath the current event description
+  appendToEvent(addition: string): void {
+    this.setState(prevState => {
+      let {currentEvent} = prevState;
+      let currentDesc = currentEvent.description;
+      currentEvent.description = currentDesc + '\n' + addition;
+      return {currentEvent}
+    });
+  }
+
   // makes initial API calls to receive all cards and events
   componentDidMount(){
     fetch('/api/start')
@@ -116,7 +127,11 @@ class Board extends React.Component<{}, State> {
       <div>
         {this.state.currentEvent ? <EventDisplay event={this.state.currentEvent}/> : "Loading...."}
         <h2>Hand:</h2>
-        {this.state.hand.length ? <Hand eventId={this.state.currentEvent.id} discard={this.discardFromHand} hand={this.state.hand}/> : "No hand"}
+        {this.state.hand.length ? <Hand
+          appendToEvent={this.appendToEvent}
+          eventId={this.state.currentEvent.id}
+          discard={this.discardFromHand}
+          hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
       </div>
