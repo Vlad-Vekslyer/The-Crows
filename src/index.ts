@@ -49,6 +49,7 @@ app.get("/api/combo", async (req, res, next) => {
   }
 });
 
+// proceed to this middleware if the combination is high profile and contains multiple possible results
 app.get("/api/combo", async (req, res) => {
   let comboResponse: ComboResponse = req.body.comboResponse;
   let db = new Database();
@@ -60,6 +61,22 @@ app.get("/api/combo", async (req, res) => {
   comboResponse.successChance = successChance;
   res.json(comboResponse);
 })
+
+
+// get a specific event by id, currently not needed
+app.get("/api/event/:eventId", async (req, res) => {
+  let db = new Database();
+  let eventQuery = await db.query(`SELECT id, event_name AS name,
+    event_description AS description,
+    is_starter AS isStarter,
+    hidden_description AS hiddenDesc
+    FROM events
+    WHERE id = ${req.params.eventId}`);
+  await db.close();
+  let event = eventQuery[0];
+  event.isStarter = !!event.isStarter;
+  res.json(event);
+});
 
 app.listen(3001, () => {
   console.log("Express server has started");

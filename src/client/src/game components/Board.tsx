@@ -3,6 +3,7 @@ import {Event, Card} from "../../../types/game"
 import EventDisplay from "./EventDisplay"
 import Hand from "./Hand"
 import BoardState from "../game/BoardState"
+import EffectExecution from "../game/EffectExecution"
 
 class Board extends React.Component<{}, BoardState> {
   constructor(props: Readonly<{}>){
@@ -15,6 +16,7 @@ class Board extends React.Component<{}, BoardState> {
       cardDiscard: [],
       hand: [],
       control: 5,
+      effectExecution: new EffectExecution(this),
       currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
     this.discardFromHand = this.discardFromHand.bind(this);
@@ -25,7 +27,8 @@ class Board extends React.Component<{}, BoardState> {
 
   shuffle(pile: Event[]): void;
   shuffle(pile: Card[]): void;
-  shuffle(pile: Card[], returnPile: boolean): Card[]
+  shuffle(pile: Event[], returnPile: boolean): Event[];
+  shuffle(pile: Card[], returnPile: boolean): Card[];
   // shuffle the card/event pool
   // @returnPile asks whether the shulled pile should be insterted into state or should it be a return value
   shuffle(pile: any[], returnPile?: boolean){
