@@ -11,13 +11,21 @@ class EffectExecution {
   addEvent(eventId: number): void{
     this.board.setState(prevState => {
       let {eventPool, eventStorage} = prevState;
-      let event: Event = eventStorage.filter(event => event.id = eventId)[0];
+      var event: Event = eventStorage.filter(event => event.id = eventId)[0];
       let eventIndex: number = eventStorage.indexOf(event);
       eventStorage.splice(eventIndex, 1);
       eventPool.push(event);
       eventPool = this.board.shuffle(eventPool, true);
       return {eventPool}
     });
+  }
+
+  removeEvent(eventId: number): void{
+    this.board.setState(prevState => {
+      let eventStorage = prevState.eventStorage;
+      eventStorage = eventStorage.filter(event => event.id != eventId);
+      return {eventStorage}
+    })
   }
 }
 

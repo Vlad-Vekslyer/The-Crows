@@ -1,5 +1,4 @@
 import {Event, Card} from "../../../types/game"
-import EffectExecution from "./EffectExecution"
 
 interface BoardState {
   // storage contains cards/events currently out of the game
@@ -12,8 +11,7 @@ interface BoardState {
   // hand and currentEvent contains cards/events currently played
   hand: Card[],
   currentEvent: Event,
-  control: number,
-  effectExecution: EffectExecution
+  control: number
 }
 
 export default BoardState

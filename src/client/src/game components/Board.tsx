@@ -6,6 +6,8 @@ import BoardState from "../game/BoardState"
 import EffectExecution from "../game/EffectExecution"
 
 class Board extends React.Component<{}, BoardState> {
+  effectExecution: EffectExecution
+
   constructor(props: Readonly<{}>){
     super(props);
     this.state = {
@@ -16,9 +18,9 @@ class Board extends React.Component<{}, BoardState> {
       cardDiscard: [],
       hand: [],
       control: 5,
-      effectExecution: new EffectExecution(this),
       currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
+    this.effectExecution = new EffectExecution(this)
     this.discardFromHand = this.discardFromHand.bind(this);
     this.drawEvent = this.drawEvent.bind(this);
     this.shuffle = this.shuffle.bind(this);
@@ -113,8 +115,8 @@ class Board extends React.Component<{}, BoardState> {
   }
 
 //         {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
-
   render(){
+    let effectExecution = new EffectExecution(this);
     return(
       <div>
         {this.state.currentEvent ? <EventDisplay event={this.state.currentEvent}/> : "Loading...."}
@@ -126,6 +128,7 @@ class Board extends React.Component<{}, BoardState> {
           hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
+        <button onClick={() => effectExecution.removeEvent(10)}>Remove Event</button>
       </div>
     )
   }
