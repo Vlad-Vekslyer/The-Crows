@@ -2,21 +2,9 @@ import React from "react";
 import {Event, Card} from "../../../types/game"
 import EventDisplay from "./EventDisplay"
 import Hand from "./Hand"
+import BoardState from "../game/BoardState"
 
-interface State {
-  // storage contains cards/events currently out of the game
-  // pile contains cards/events that can be drawn currently
-  eventStorage: Event[],
-  cardStorage: Card[],
-  eventPool: Event[],
-  cardPool: Card[],
-  cardDiscard: Card[],
-  // hand and currentEvent contains cards/events currently played
-  hand: Card[],
-  currentEvent: Event
-}
-
-class Board extends React.Component<{}, State> {
+class Board extends React.Component<{}, BoardState> {
   constructor(props: Readonly<{}>){
     super(props);
     this.state = {
@@ -26,6 +14,7 @@ class Board extends React.Component<{}, State> {
       cardPool: [],
       cardDiscard: [],
       hand: [],
+      control: 5,
       currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
     this.discardFromHand = this.discardFromHand.bind(this);
@@ -98,7 +87,7 @@ class Board extends React.Component<{}, State> {
     this.setState(prevState => {
       let {currentEvent} = prevState;
       let currentDesc = currentEvent.description;
-      currentEvent.description = currentDesc + '\n' + addition;
+      currentEvent.description = currentDesc + '\n \n' + addition;
       return {currentEvent}
     });
   }

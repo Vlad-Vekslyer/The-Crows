@@ -1,5 +1,5 @@
 import React from 'react';
-import Board from './game/Board'
+import Board from './game components/Board'
 
 class App extends React.Component<{}, {}> {
 
