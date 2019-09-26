@@ -10,7 +10,18 @@ class EffectExecution {
   }
 
   exec(effect: Effect){
-    
+    for(let property in effect){
+      // don't do anything with null values
+      if(effect[property]){
+        switch(property){
+          case "controlVariation": this.controlVariation(effect.controlVariation); break;
+          case "addEvent": this.addEvent(effect.addEvent); break;
+          case "removeEvent": this.removeEvent(effect.removeEvent); break;
+          case "drawExtra": this.drawExtra(effect.drawExtra); break;
+        }
+      }
+      !effect.holdEvent ? this.board.drawEvent() : null;
+    }
   }
 
   addEvent(eventId: number): void{
