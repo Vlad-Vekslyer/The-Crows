@@ -128,7 +128,8 @@ class Board extends React.Component<{}, BoardState> {
           hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
-        <button onClick={() => effectExecution.removeEvent(10)}>Remove Event</button>
+        <button onClick={() => effectExecution.controlVariation(-3)}>Remove 3 Control</button>
+        <button onClick={() => effectExecution.controlVariation(2)}>Add 2 Control</button>
       </div>
     )
   }

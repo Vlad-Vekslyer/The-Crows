@@ -1,5 +1,5 @@
 import Board from "../game components/Board"
-import {Event, Card} from "../../../types/game"
+import {Event} from "../../../types/game"
 
 class EffectExecution {
   board: Board
@@ -23,9 +23,16 @@ class EffectExecution {
   removeEvent(eventId: number): void{
     this.board.setState(prevState => {
       let eventStorage = prevState.eventStorage;
-      eventStorage = eventStorage.filter(event => event.id != eventId);
+      eventStorage = eventStorage.filter(event => event.id !== eventId);
       return {eventStorage}
     })
+  }
+
+  controlVariation(amount: number): void{
+    this.board.setState(prevState => {
+      let newControl: number = prevState.control + amount
+      return {control: newControl}
+    });
   }
 }
 
