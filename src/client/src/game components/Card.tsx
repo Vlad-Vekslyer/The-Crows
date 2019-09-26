@@ -46,6 +46,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   }
 
   render(){
+    console.log(this.state.effects);
     return(
       <div className="card">
         <h3>{this.props.card.name}</h3>

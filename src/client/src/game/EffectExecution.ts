@@ -1,11 +1,16 @@
 import Board from "../game components/Board"
-import {Event} from "../../../types/game"
+import {Event, Effect} from "../../../types/game"
+
 
 class EffectExecution {
-  board: Board
+  private board: Board
 
   constructor(board: Board){
     this.board = board;
+  }
+
+  exec(effect: Effect){
+    
   }
 
   addEvent(eventId: number): void{

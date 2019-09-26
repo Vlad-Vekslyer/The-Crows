@@ -1,4 +1,5 @@
-import {Effect, ComboResponse} from '../types/API';
+import {ComboResponse} from '../types/API';
+import {Effect} from '../types/game'
 import Database from '../db_Util/PromiseWrapper';
 
 export async function findCombination(db: Database, cardId: number, eventId: number): Promise<any> {
