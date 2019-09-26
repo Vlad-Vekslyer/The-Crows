@@ -5,12 +5,14 @@ import CardDisplay from "./Card"
 interface Props {
   hand: Card[],
   eventId: number,
+  isHolding: boolean,
   discard: (card: Card) => Card,
   appendToEvent: (addition: string) => void
 }
 
 function Hand(props: Props){
   let cards = props.hand.map(card => <CardDisplay
+    isHolding={props.isHolding}
     appendToEvent={props.appendToEvent}
     discard={props.discard}
     eventId={props.eventId}

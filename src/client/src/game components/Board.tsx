@@ -18,6 +18,7 @@ class Board extends React.Component<{}, BoardState> {
       cardDiscard: [],
       hand: [],
       control: 5,
+      isHolding: false,
       currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
     this.effectExecution = new EffectExecution(this)
@@ -122,6 +123,7 @@ class Board extends React.Component<{}, BoardState> {
         {this.state.currentEvent ? <EventDisplay event={this.state.currentEvent}/> : "Loading...."}
         <h2>Hand:</h2>
         {this.state.hand.length ? <Hand
+          isHolding = {this.state.isHolding}
           appendToEvent={this.appendToEvent}
           eventId={this.state.currentEvent.id}
           discard={this.discardFromHand}

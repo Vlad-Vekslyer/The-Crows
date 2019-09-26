@@ -20,7 +20,7 @@ class EffectExecution {
           case "drawExtra": this.drawExtra(effect.drawExtra); break;
         }
       }
-      !effect.holdEvent ? this.board.drawEvent() : null;
+      effect.holdEvent === false ? this.board.drawEvent() : null;
     }
   }
 

@@ -11,7 +11,8 @@ interface BoardState {
   // hand and currentEvent contains cards/events currently played
   hand: Card[],
   currentEvent: Event,
-  control: number
+  control: number,
+  isHolding: boolean
 }
 
 export default BoardState

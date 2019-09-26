@@ -6,6 +6,7 @@ interface Props {
   card: Card,
   id: number,
   eventId: number,
+  isHolding: boolean,
   discard: (card: Card) => Card,
   appendToEvent: (addition: string) => void
 }
@@ -50,7 +51,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
     return(
       <div className="card">
         <h3>{this.props.card.name}</h3>
-        <button onClick={() => {
+        <button disabled={this.props.isHolding} onClick={() => {
           this.props.discard(this.props.card);
           let resultDesc: string;
           this.state.successChance? resultDesc = this.resolveHighProfile() : resultDesc = this.state.resultDesc as string;
