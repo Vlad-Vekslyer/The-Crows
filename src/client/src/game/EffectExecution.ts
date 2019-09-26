@@ -34,6 +34,16 @@ class EffectExecution {
       return {control: newControl}
     });
   }
+
+  // draw to three cards and then draw the specified amount of extra cards
+  drawExtra(amount: number): void{
+    this.board.drawCards(3 + amount);
+  }
+
+  revealHidden(): void{
+    let eventHiddenDesc: string = this.board.state.currentEvent.hiddenDesc;
+    this.board.appendToEvent(eventHiddenDesc);
+  }
 }
 
 export default EffectExecution

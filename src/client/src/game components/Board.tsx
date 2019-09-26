@@ -130,6 +130,8 @@ class Board extends React.Component<{}, BoardState> {
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
         <button onClick={() => effectExecution.controlVariation(-3)}>Remove 3 Control</button>
         <button onClick={() => effectExecution.controlVariation(2)}>Add 2 Control</button>
+        <button onClick={() => effectExecution.drawExtra(1)}>Draw 1 extra card</button>
+        <button onClick={() => effectExecution.revealHidden()}>Reveal hidden</button>
       </div>
     )
   }
