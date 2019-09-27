@@ -1,12 +1,14 @@
 import React from "react"
-import {Card} from "../../../types/game"
+import {Card, Effect} from "../../../types/game"
 import {ComboResponse} from "../../../types/API"
+import EffectExecution from "../game/EffectExecution"
 
 interface Props {
   card: Card,
   id: number,
   eventId: number,
   isHolding: boolean,
+  effectExecution: EffectExecution,
   discard: (card: Card) => Card,
   appendToEvent: (addition: string) => void
 }
@@ -23,21 +25,23 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   }
 
   // decide whether the high profile action succeeded and return the appropriate result description
-  resolveHighProfile(): string{
+  resolveHighProfile(): {resultDesc: string, effects: Effect}{
     let successChance: number = this.state.successChance as number;
+    let effectsArr: Effect[] = this.state.effects as Effect[];
     let didSucceed: boolean;
+    let effects: Effect;
+    let resultDesc: string;
     let roll: number = Math.floor(Math.random() * 100) + 1;
     roll <= successChance ? didSucceed = true : didSucceed = false;
     if(didSucceed) {
-      let resultDesc: string = this.state.resultDesc[0];
-      this.setState(prevState => {return {resultDesc: prevState.resultDesc[0]}});
-      return resultDesc;
+      effects = effectsArr[0];
+      resultDesc= this.state.resultDesc[0];
     }
     else {
-      let resultDesc: string = this.state.resultDesc[1];
-      this.setState(prevState => {return {resultDesc: prevState.resultDesc[1]}});
-      return resultDesc;
+      effects = effectsArr[1];
+      resultDesc = this.state.resultDesc[1];
     }
+    return {resultDesc, effects};
   }
 
   componentDidMount(){
@@ -47,15 +51,17 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   }
 
   render(){
-    console.log(this.state.effects);
     return(
       <div className="card">
         <h3>{this.props.card.name}</h3>
         <button disabled={this.props.isHolding} onClick={() => {
           this.props.discard(this.props.card);
           let resultDesc: string;
-          this.state.successChance? resultDesc = this.resolveHighProfile() : resultDesc = this.state.resultDesc as string;
+          let effects: Effect;
+          this.state.successChance? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
           this.props.appendToEvent(resultDesc);
+          console.log(effects);
+          this.props.effectExecution.exec(effects);
         }}>{this.state.comboDesc}</button>
       </div>
     )

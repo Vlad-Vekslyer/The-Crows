@@ -117,6 +117,7 @@ class Board extends React.Component<{}, BoardState> {
 
 //         {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
   render(){
+    console.log(this.state.control);
     let effectExecution = new EffectExecution(this);
     return(
       <div>
@@ -127,6 +128,7 @@ class Board extends React.Component<{}, BoardState> {
           appendToEvent={this.appendToEvent}
           eventId={this.state.currentEvent.id}
           discard={this.discardFromHand}
+          effectExecution={effectExecution}
           hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>

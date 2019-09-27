@@ -18,9 +18,10 @@ class EffectExecution {
           case "addEvent": this.addEvent(effect.addEvent); break;
           case "removeEvent": this.removeEvent(effect.removeEvent); break;
           case "drawExtra": this.drawExtra(effect.drawExtra); break;
+          case "revealHidden": this.revealHidden(); break;
         }
       }
-      effect.holdEvent === false ? this.board.drawEvent() : null;
+      effect.holdEvent === false ? this.board.drawEvent() : this.board.setState({isHolding: true});
     }
   }
 

@@ -1,11 +1,13 @@
 import React from "react"
 import {Card} from "../../../types/game"
 import CardDisplay from "./Card"
+import EffectExecution from "../game/EffectExecution"
 
 interface Props {
   hand: Card[],
   eventId: number,
   isHolding: boolean,
+  effectExecution: EffectExecution
   discard: (card: Card) => Card,
   appendToEvent: (addition: string) => void
 }
@@ -13,6 +15,7 @@ interface Props {
 function Hand(props: Props){
   let cards = props.hand.map(card => <CardDisplay
     isHolding={props.isHolding}
+    effectExecution={props.effectExecution}
     appendToEvent={props.appendToEvent}
     discard={props.discard}
     eventId={props.eventId}

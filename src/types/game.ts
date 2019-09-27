@@ -1,8 +1,10 @@
 export interface Effect {
+  [key: string]: number | boolean
+
   controlVariation: number,
   addEvent: number,
   removeEvent: number,
-  drawExtra: boolean,
+  drawExtra: number,
   holdEvent: boolean,
   revealHidden: boolean
 }

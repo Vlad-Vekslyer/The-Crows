@@ -10,7 +10,6 @@ function EventDisplay(props: Props){
       <div id="event-display">
         <header>{props.event.name}</header>
         <textarea rows={15} cols={180} readOnly value={props.event.description} className="desc"/>
-        <p className="hidden desc">{props.event.hiddenDesc}</p>
       </div>
     )
 }
