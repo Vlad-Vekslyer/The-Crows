@@ -1,4 +1,5 @@
 import {Event, Card} from "../../../types/game"
+import GameState from "./GameState"
 
 interface BoardState {
   // storage contains cards/events currently out of the game
@@ -12,7 +13,7 @@ interface BoardState {
   hand: Card[],
   currentEvent: Event,
   control: number,
-  isEventDone: boolean
+  gameState: GameState
 }
 
 export default BoardState

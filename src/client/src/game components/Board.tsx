@@ -19,7 +19,7 @@ class Board extends React.Component<{}, BoardState> {
       cardDiscard: [],
       hand: [],
       control: 5,
-      isEventDone: false,
+      gameState: GameState.waitingInput,
       currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
     this.effectExecution = new EffectExecution(this)
@@ -78,7 +78,7 @@ class Board extends React.Component<{}, BoardState> {
       let {eventPool} = prevState;
       // slice off the last item in the event pool and save it to a variable
       let currentEvent: Event = eventPool.splice(eventPool.length - 1)[0];
-      return {eventPool, currentEvent, isEventDone: false}
+      return {eventPool, currentEvent, gameState: GameState.waitingInput}
     });
   }
 
@@ -108,14 +108,22 @@ class Board extends React.Component<{}, BoardState> {
 
   // Prevent any further input from the user and print out a message
   closeEvent(): void{
+    let gameState: GameState;
     this.appendToEvent("Click here to continue....");
-    this.setState({isEventDone: true});
+    if(this.state.eventPool.length) {
+      gameState = GameState.finishedEvent;
+    } else if(this.state.control <= 0){
+      gameState = GameState.lost;
+    } else {
+      gameState = GameState.won;
+    }
+    this.setState({gameState});
   }
 
-  gameOver(gameState: GameState): void {
-    if(gameState === GameState.won){
+  gameOver(): void {
+    if(this.state.gameState === GameState.won){
       this.setState({currentEvent: {name: "Winner", description: "Winner chicken dinner", isStarter: false, id: -2, hiddenDesc: "na"}})
-    } else if(gameState === GameState.lost){
+    } else if(this.state.gameState === GameState.lost){
       this.setState({currentEvent: {name: "Loser", description: "Try again", isStarter: false, id: -3, hiddenDesc: "na"}})
     }
   }
@@ -139,25 +147,22 @@ class Board extends React.Component<{}, BoardState> {
 
 //         {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
   render(){
-    let gameState : GameState;
-    this.state.control > 0 && this.state.eventPool.length ? gameState = GameState.onGoing : (this.state.control <= 0 ? gameState = GameState.lost : gameState = GameState.won);
     let effectExecution = new EffectExecution(this);
     return(
       <div>
         {this.state.currentEvent ? <EventDisplay
           drawCards = {this.drawCards}
           gameOver = {this.gameOver}
-          gameState = {gameState}
-          isEventDone = {this.state.isEventDone}
+          gameState = {this.state.gameState}
           drawEvent = {this.drawEvent}
           event={this.state.currentEvent}/> : "Loading...."}
         <h2>Hand:</h2>
         {this.state.hand.length ? <Hand
-          isEventDone = {this.state.isEventDone}
           appendToEvent={this.appendToEvent}
           eventId={this.state.currentEvent.id}
           discard={this.discardFromHand}
           effectExecution={effectExecution}
+          gameState = {this.state.gameState}
           hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>

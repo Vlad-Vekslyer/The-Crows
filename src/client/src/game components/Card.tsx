@@ -2,12 +2,13 @@ import React from "react"
 import {Card, Effect} from "../../../types/game"
 import {ComboResponse} from "../../../types/API"
 import EffectExecution from "../game/EffectExecution"
+import GameState from "../game/GameState"
 
 interface Props {
   card: Card,
   id: number,
   eventId: number,
-  isEventDone: boolean,
+  gameState: GameState
   effectExecution: EffectExecution,
   discard: (card: Card) => Card,
   appendToEvent: (addition: string) => void
@@ -59,10 +60,11 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   }
 
   render(){
+    let disablingGameState: GameState[] = [GameState.lost, GameState.won, GameState.finishedEvent]
     return(
       <div className="card">
         <h3>{this.props.card.name}</h3>
-        <button disabled={this.props.isEventDone} onClick={() => {
+        <button disabled={disablingGameState.indexOf(this.props.gameState) !== -1} onClick={() => {
           this.props.discard(this.props.card);
           let resultDesc: string;
           let effects: Effect;
