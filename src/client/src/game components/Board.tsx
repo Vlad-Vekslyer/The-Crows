@@ -25,6 +25,7 @@ class Board extends React.Component<{}, BoardState> {
     this.effectExecution = new EffectExecution(this)
     this.discardFromHand = this.discardFromHand.bind(this);
     this.drawEvent = this.drawEvent.bind(this);
+    this.drawCards = this.drawCards.bind(this);
     this.shuffle = this.shuffle.bind(this);
     this.appendToEvent = this.appendToEvent.bind(this);
     this.closeEvent = this.closeEvent.bind(this);
@@ -144,6 +145,7 @@ class Board extends React.Component<{}, BoardState> {
     return(
       <div>
         {this.state.currentEvent ? <EventDisplay
+          drawCards = {this.drawCards}
           gameOver = {this.gameOver}
           gameState = {gameState}
           isEventDone = {this.state.isEventDone}

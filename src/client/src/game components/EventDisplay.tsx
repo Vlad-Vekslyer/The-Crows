@@ -7,6 +7,7 @@ interface Props {
   gameState: GameState,
   isEventDone: boolean,
   drawEvent: () => void,
+  drawCards: (cardNume?: number) => void,
   gameOver: (gameState: GameState) => void
 }
 
@@ -15,7 +16,10 @@ function EventDisplay(props: Props){
       <div id="event-display">
         <header>{props.event.name}</header>
         <textarea onClick={() => {
-          if(props.isEventDone && props.gameState === GameState.onGoing) props.drawEvent();
+          if(props.isEventDone && props.gameState === GameState.onGoing){
+            props.drawEvent();
+            props.drawCards();
+          }
           else if(props.isEventDone && (props.gameState === GameState.won || props.gameState === GameState.lost)) props.gameOver(props.gameState);
         }} rows={15} cols={180} readOnly value={props.event.description} className="desc"/>
       </div>
