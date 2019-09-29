@@ -93,9 +93,9 @@ class Board extends React.Component<{}, BoardState> {
   }
 
   // add additional text beneath the current event description
-  appendToEvent(addition: string | undefined): void {
-    // addition can be undefined if there's a combination involving Investigation card
-    if(addition){
+  appendToEvent(addition: string): void {
+    // addition can be null if there's a combination involving Investigation card
+    if(addition !== "null"){
       this.setState(prevState => {
         let {currentEvent} = prevState;
         let currentDesc = currentEvent.description;

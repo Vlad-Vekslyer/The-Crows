@@ -44,12 +44,18 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
     return {resultDesc, effects};
   }
 
-  componentDidMount(){
-    if(this.props.eventId > 0){
+  componentDidUpdate(prevProps: Props){
+    if(this.props.eventId > 0 && prevProps.eventId !== this.props.eventId){
       fetch(`/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
       .then(res => res.json())
       .then(res => this.setState(res));
     }
+  }
+
+  componentDidMount(){
+    fetch(`/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
+    .then(res => res.json())
+    .then(res => this.setState(res));
   }
 
   render(){
