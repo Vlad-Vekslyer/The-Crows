@@ -7,7 +7,7 @@ interface Props {
   card: Card,
   id: number,
   eventId: number,
-  isHolding: boolean,
+  isEventDone: boolean,
   effectExecution: EffectExecution,
   discard: (card: Card) => Card,
   appendToEvent: (addition: string) => void
@@ -45,22 +45,23 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   }
 
   componentDidMount(){
-    fetch(`/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
-    .then(res => res.json())
-    .then(res => this.setState(res));
+    if(this.props.eventId > 0){
+      fetch(`/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
+      .then(res => res.json())
+      .then(res => this.setState(res));
+    }
   }
 
   render(){
     return(
       <div className="card">
         <h3>{this.props.card.name}</h3>
-        <button disabled={this.props.isHolding} onClick={() => {
+        <button disabled={this.props.isEventDone} onClick={() => {
           this.props.discard(this.props.card);
           let resultDesc: string;
           let effects: Effect;
           this.state.successChance? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
           this.props.appendToEvent(resultDesc);
-          console.log(effects);
           this.props.effectExecution.exec(effects);
         }}>{this.state.comboDesc}</button>
       </div>

@@ -12,7 +12,7 @@ interface BoardState {
   hand: Card[],
   currentEvent: Event,
   control: number,
-  isHolding: boolean
+  isEventDone: boolean
 }
 
 export default BoardState

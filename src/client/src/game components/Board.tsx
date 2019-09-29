@@ -3,6 +3,7 @@ import {Event, Card} from "../../../types/game"
 import EventDisplay from "./EventDisplay"
 import Hand from "./Hand"
 import BoardState from "../game/BoardState"
+import GameState from "../game/GameState"
 import EffectExecution from "../game/EffectExecution"
 
 class Board extends React.Component<{}, BoardState> {
@@ -18,7 +19,7 @@ class Board extends React.Component<{}, BoardState> {
       cardDiscard: [],
       hand: [],
       control: 5,
-      isHolding: false,
+      isEventDone: false,
       currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
     this.effectExecution = new EffectExecution(this)
@@ -26,6 +27,8 @@ class Board extends React.Component<{}, BoardState> {
     this.drawEvent = this.drawEvent.bind(this);
     this.shuffle = this.shuffle.bind(this);
     this.appendToEvent = this.appendToEvent.bind(this);
+    this.closeEvent = this.closeEvent.bind(this);
+    this.gameOver = this.gameOver.bind(this);
   }
 
   shuffle(pile: Event[]): void;
@@ -68,12 +71,13 @@ class Board extends React.Component<{}, BoardState> {
     })
   }
 
+  // remove the last event from the event pile and set it to be the current event
   drawEvent(): void {
     this.setState(prevState => {
       let {eventPool} = prevState;
       // slice off the last item in the event pool and save it to a variable
       let currentEvent: Event = eventPool.splice(eventPool.length - 1)[0];
-      return {eventPool, currentEvent}
+      return {eventPool, currentEvent, isEventDone: false}
     });
   }
 
@@ -89,13 +93,30 @@ class Board extends React.Component<{}, BoardState> {
   }
 
   // add additional text beneath the current event description
-  appendToEvent(addition: string): void {
-    this.setState(prevState => {
-      let {currentEvent} = prevState;
-      let currentDesc = currentEvent.description;
-      currentEvent.description = currentDesc + '\n \n' + addition;
-      return {currentEvent}
-    });
+  appendToEvent(addition: string | undefined): void {
+    // addition can be undefined if there's a combination involving Investigation card
+    if(addition){
+      this.setState(prevState => {
+        let {currentEvent} = prevState;
+        let currentDesc = currentEvent.description;
+        currentEvent.description = currentDesc + '\n \n' + addition;
+        return {currentEvent}
+      });
+    }
+  }
+
+  // Prevent any further input from the user and print out a message
+  closeEvent(): void{
+    this.appendToEvent("Click here to continue....");
+    this.setState({isEventDone: true});
+  }
+
+  gameOver(gameState: GameState): void {
+    if(gameState === GameState.won){
+      this.setState({currentEvent: {name: "Winner", description: "Winner chicken dinner", isStarter: false, id: -2, hiddenDesc: "na"}})
+    } else if(gameState === GameState.lost){
+      this.setState({currentEvent: {name: "Loser", description: "Try again", isStarter: false, id: -3, hiddenDesc: "na"}})
+    }
   }
 
   // makes initial API calls to receive all cards and events
@@ -117,14 +138,20 @@ class Board extends React.Component<{}, BoardState> {
 
 //         {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
   render(){
-    console.log(this.state.control);
+    let gameState : GameState;
+    this.state.control > 0 && this.state.eventPool.length ? gameState = GameState.onGoing : (this.state.control <= 0 ? gameState = GameState.lost : gameState = GameState.won);
     let effectExecution = new EffectExecution(this);
     return(
       <div>
-        {this.state.currentEvent ? <EventDisplay event={this.state.currentEvent}/> : "Loading...."}
+        {this.state.currentEvent ? <EventDisplay
+          gameOver = {this.gameOver}
+          gameState = {gameState}
+          isEventDone = {this.state.isEventDone}
+          drawEvent = {this.drawEvent}
+          event={this.state.currentEvent}/> : "Loading...."}
         <h2>Hand:</h2>
         {this.state.hand.length ? <Hand
-          isHolding = {this.state.isHolding}
+          isEventDone = {this.state.isEventDone}
           appendToEvent={this.appendToEvent}
           eventId={this.state.currentEvent.id}
           discard={this.discardFromHand}
@@ -132,10 +159,6 @@ class Board extends React.Component<{}, BoardState> {
           hand={this.state.hand}/> : "No hand"}
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
-        <button onClick={() => effectExecution.controlVariation(-3)}>Remove 3 Control</button>
-        <button onClick={() => effectExecution.controlVariation(2)}>Add 2 Control</button>
-        <button onClick={() => effectExecution.drawExtra(1)}>Draw 1 extra card</button>
-        <button onClick={() => effectExecution.revealHidden()}>Reveal hidden</button>
       </div>
     )
   }

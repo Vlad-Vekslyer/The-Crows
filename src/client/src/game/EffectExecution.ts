@@ -21,11 +21,11 @@ class EffectExecution {
           case "revealHidden": this.revealHidden(); break;
         }
       }
-      effect.holdEvent === false ? this.board.drawEvent() : this.board.setState({isHolding: true});
     }
+    if(!effect.holdEvent) this.board.closeEvent();
   }
 
-  addEvent(eventId: number): void{
+  private addEvent(eventId: number): void{
     this.board.setState(prevState => {
       let {eventPool, eventStorage} = prevState;
       var event: Event = eventStorage.filter(event => event.id = eventId)[0];
@@ -37,7 +37,7 @@ class EffectExecution {
     });
   }
 
-  removeEvent(eventId: number): void{
+   private removeEvent(eventId: number): void{
     this.board.setState(prevState => {
       let eventStorage = prevState.eventStorage;
       eventStorage = eventStorage.filter(event => event.id !== eventId);
@@ -45,7 +45,7 @@ class EffectExecution {
     })
   }
 
-  controlVariation(amount: number): void{
+  private controlVariation(amount: number): void{
     this.board.setState(prevState => {
       let newControl: number = prevState.control + amount
       return {control: newControl}
@@ -53,11 +53,11 @@ class EffectExecution {
   }
 
   // draw to three cards and then draw the specified amount of extra cards
-  drawExtra(amount: number): void{
+  private drawExtra(amount: number): void{
     this.board.drawCards(3 + amount);
   }
 
-  revealHidden(): void{
+  private revealHidden(): void{
     let eventHiddenDesc: string = this.board.state.currentEvent.hiddenDesc;
     this.board.appendToEvent(eventHiddenDesc);
   }
