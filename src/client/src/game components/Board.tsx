@@ -1,6 +1,6 @@
 import React from "react";
 import {Event, Card} from "../../../types/game"
-import EventDisplay from "./EventDisplay"
+import EventDisplay from "./EventDisplay/EventDisplay"
 import Hand from "./Hand"
 import BoardState from "../game/BoardState"
 import GameState from "../game/GameState"
@@ -20,7 +20,7 @@ class Board extends React.Component<{}, BoardState> {
       hand: [],
       control: 5,
       gameState: GameState.waitingInput,
-      currentEvent: {name: "Placeholder", description:"you shouldn't see this", isStarter: false, id: -1, hiddenDesc: "seriously"}
+      currentEvent: {name: "Loading", description:"Loading....", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
     this.effectExecution = new EffectExecution(this)
     this.discardFromHand = this.discardFromHand.bind(this);
@@ -150,13 +150,12 @@ class Board extends React.Component<{}, BoardState> {
     let effectExecution = new EffectExecution(this);
     return(
       <div>
-        {this.state.currentEvent ? <EventDisplay
+        <EventDisplay
           drawCards = {this.drawCards}
           gameOver = {this.gameOver}
           gameState = {this.state.gameState}
           drawEvent = {this.drawEvent}
-          event={this.state.currentEvent}/> : "Loading...."}
-        <h2>Hand:</h2>
+          event={this.state.currentEvent}/>
         {this.state.hand.length ? <Hand
           appendToEvent={this.appendToEvent}
           eventId={this.state.currentEvent.id}
