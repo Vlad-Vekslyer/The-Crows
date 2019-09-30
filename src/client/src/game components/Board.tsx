@@ -130,19 +130,21 @@ class Board extends React.Component<{}, BoardState> {
 
   // makes initial API calls to receive all cards and events
   componentDidMount(){
-    fetch('/api/start')
-    .then(res => res.json())
-    .then(res => {
-      this.setState({
-        cardStorage: res.cards.filter((card: Card) => !card.isStarter),
-        cardPool: res.cards.filter((card: Card) => card.isStarter),
-        eventStorage: res.events.filter((event: Event) => !event.isStarter),
-        eventPool: res.events.filter((event: Event) => event.isStarter)
-      });
-      this.shuffle(this.state.cardPool);
-      this.drawEvent();
-      this.drawCards();
-    })
+    setTimeout(() => {
+      fetch('/api/start')
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          cardStorage: res.cards.filter((card: Card) => !card.isStarter),
+          cardPool: res.cards.filter((card: Card) => card.isStarter),
+          eventStorage: res.events.filter((event: Event) => !event.isStarter),
+          eventPool: res.events.filter((event: Event) => event.isStarter)
+        });
+        this.shuffle(this.state.cardPool);
+        this.drawEvent();
+        this.drawCards();
+      })
+    },3000);
   }
 
 //         {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}

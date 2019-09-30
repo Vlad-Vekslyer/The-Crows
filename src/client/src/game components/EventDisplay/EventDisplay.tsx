@@ -1,14 +1,13 @@
 import React from "react";
 import {Event} from "../../../../types/game"
 import GameState from "../../game/GameState"
-import EventTextArea from "./TextArea"
 
 interface BaseEventProps {
-  event: Event
+  event: Event,
+  clickHandler?: () => void
 }
 
 interface EventProps extends BaseEventProps {
-  event: Event,
   drawEvent: () => void,
   drawCards: (cardNum?: number) => void,
   gameOver: () => void,
@@ -24,9 +23,7 @@ function EventDisplay(props: EventProps) {
       event={props.event}
       gameState={props.gameState}/>
   } else {
-    return <BasicEvent event={props.event}>
-             <EventTextArea value={"Loading...."}/>
-           </BasicEvent>
+    return <BasicEventDisplay event={props.event}/>
   }
 }
 
@@ -39,17 +36,15 @@ function LoadedEventDisplay(props: EventProps){
       else if(props.gameState === GameState.won || props.gameState === GameState.lost) props.gameOver();
     }
     return(
-      <BasicEvent event={props.event}>
-        <EventTextArea value={props.event.description} clickHandler={clickHandler}/>
-      </BasicEvent>
+      <BasicEventDisplay event={props.event} clickHandler={clickHandler}/>
     )
 }
 
-function BasicEvent(props: React.PropsWithChildren<BaseEventProps>){
+function BasicEventDisplay(props: BaseEventProps){
   return(
     <div id="event-display">
       <header>{props.event.name}</header>
-      {props.children}
+      <textarea rows={15} cols={180} readOnly value={props.event.description} onClick={props.clickHandler} className="desc"/>
     </div>
   )
 }
