@@ -1,8 +1,8 @@
 import React from "react"
-import {Card, Effect} from "../../../types/game"
-import {ComboResponse} from "../../../types/API"
-import EffectExecution from "../game/EffectExecution"
-import GameState from "../game/GameState"
+import {Card, Effect} from "../../../../types/game"
+import {ComboResponse} from "../../../../types/API"
+import EffectExecution from "../../game/EffectExecution"
+import GameState from "../../game/GameState"
 
 interface Props {
   card: Card,

@@ -1,7 +1,7 @@
 import React from "react";
 import {Event, Card} from "../../../types/game"
 import EventDisplay from "./EventDisplay/EventDisplay"
-import Hand from "./Hand"
+import Hand from "./Hand/Hand"
 import BoardState from "../game/BoardState"
 import GameState from "../game/GameState"
 import EffectExecution from "../game/EffectExecution"
@@ -158,13 +158,13 @@ class Board extends React.Component<{}, BoardState> {
           gameState = {this.state.gameState}
           drawEvent = {this.drawEvent}
           event={this.state.currentEvent}/>
-        {this.state.hand.length ? <Hand
+        <Hand
           appendToEvent={this.appendToEvent}
           eventId={this.state.currentEvent.id}
           discard={this.discardFromHand}
           effectExecution={effectExecution}
           gameState = {this.state.gameState}
-          hand={this.state.hand}/> : "No hand"}
+          hand={this.state.hand}/>
         <button onClick={() => this.drawCards()}>Draw</button>
         <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
       </div>
