@@ -9,6 +9,7 @@ class EffectExecution {
     this.board = board;
   }
 
+  // executes all the mechanical effects inside of an Effect
   exec(effect: Effect){
     for(let property in effect){
       // don't do anything with null values
@@ -25,6 +26,7 @@ class EffectExecution {
     if(!effect.holdEvent) this.board.closeEvent();
   }
 
+  // adds an event in Event Storage to the Event Pool
   private addEvent(eventId: number): void{
     this.board.setState(prevState => {
       let {eventPool, eventStorage} = prevState;
@@ -37,26 +39,33 @@ class EffectExecution {
     });
   }
 
+   // remove an event from the Event Storage or Pile
    private removeEvent(eventId: number): void{
     this.board.setState(prevState => {
-      let eventStorage = prevState.eventStorage;
+      let {eventStorage, eventPool} = prevState;
       eventStorage = eventStorage.filter(event => event.id !== eventId);
-      return {eventStorage}
+      eventPool = eventPool.filter(event => event.id !== eventId);
+      return {eventStorage, eventPool}
     })
   }
 
+  // add to or subtract from the current control amount
   private controlVariation(amount: number): void{
     this.board.setState(prevState => {
       let newControl: number = prevState.control + amount
       return {control: newControl}
     });
+    let word: string = amount > 0 ? "received" : "lost";
+    this.board.appendToEvent(`You ${word} ${Math.abs(amount)} control`);
   }
 
   // draw to three cards and then draw the specified amount of extra cards
   private drawExtra(amount: number): void{
     this.board.drawCards(3 + amount);
+    this.board.appendToEvent(`You drew an extra card`);
   }
 
+  // reveal an event's hidden description
   private revealHidden(): void{
     let eventHiddenDesc: string = this.board.state.currentEvent.hiddenDesc;
     this.board.appendToEvent(eventHiddenDesc);
