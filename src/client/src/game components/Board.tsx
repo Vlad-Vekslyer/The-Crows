@@ -5,6 +5,7 @@ import Hand from "./Hand/Hand"
 import BoardState from "../game/BoardState"
 import GameState from "../game/GameState"
 import EffectExecution from "../game/EffectExecution"
+import ControlDisplay from "./ControlDisplay"
 
 class Board extends React.Component<{}, BoardState> {
   effectExecution: EffectExecution
@@ -120,6 +121,7 @@ class Board extends React.Component<{}, BoardState> {
     this.setState({gameState});
   }
 
+  // display a game end screen
   gameOver(): void {
     if(this.state.gameState === GameState.won){
       this.setState({currentEvent: {name: "Winner", description: "Winner chicken dinner", isStarter: false, id: -2, hiddenDesc: "na"}})
@@ -130,21 +132,19 @@ class Board extends React.Component<{}, BoardState> {
 
   // makes initial API calls to receive all cards and events
   componentDidMount(){
-    setTimeout(() => {
-      fetch('/api/start')
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          cardStorage: res.cards.filter((card: Card) => !card.isStarter),
-          cardPool: res.cards.filter((card: Card) => card.isStarter),
-          eventStorage: res.events.filter((event: Event) => !event.isStarter),
-          eventPool: res.events.filter((event: Event) => event.isStarter)
-        });
-        this.shuffle(this.state.cardPool);
-        this.drawEvent();
-        this.drawCards();
-      })
-    },3000);
+    fetch('/api/start')
+    .then(res => res.json())
+    .then(res => {
+      this.setState({
+        cardStorage: res.cards.filter((card: Card) => !card.isStarter),
+        cardPool: res.cards.filter((card: Card) => card.isStarter),
+        eventStorage: res.events.filter((event: Event) => !event.isStarter),
+        eventPool: res.events.filter((event: Event) => event.isStarter)
+      });
+      this.shuffle(this.state.cardPool);
+      this.drawEvent();
+      this.drawCards();
+    })
   }
 
 //         {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
@@ -158,6 +158,7 @@ class Board extends React.Component<{}, BoardState> {
           gameState = {this.state.gameState}
           drawEvent = {this.drawEvent}
           event={this.state.currentEvent}/>
+        <ControlDisplay control={this.state.control}/>
         <Hand
           appendToEvent={this.appendToEvent}
           eventId={this.state.currentEvent.id}

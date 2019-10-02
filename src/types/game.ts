@@ -1,6 +1,8 @@
 export interface Effect {
   [key: string]: number | boolean
 
+  addCard: number,
+  removeCard: number,
   controlVariation: number,
   addEvent: number,
   removeEvent: number,
