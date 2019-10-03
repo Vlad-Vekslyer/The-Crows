@@ -72,6 +72,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
           this.props.appendToEvent(resultDesc);
           this.props.effectExecution.exec(effects);
         }}>{this.state.comboDesc}</button>
+        {this.state.resultDesc.length === 2 ? <span> High Profile</span> : undefined}
       </div>
     )
   }

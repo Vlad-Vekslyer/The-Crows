@@ -28,48 +28,54 @@ class EffectExecution {
     if(!effect.holdEvent) this.board.closeEvent();
   }
 
+  // add a new card to the card pool from the card storage
   private addCard(cardId: number): void{
-    this.board.setState(prevState => {
-      let {cardPool, cardStorage} = prevState;
-      let card: Card = cardStorage.filter(card => card.id = cardId)[0];
-      let eventIndex: number = cardStorage.indexOf(card);
-      cardStorage.splice(eventIndex, 1);
-      cardPool.push(card);
-      cardPool = this.board.shuffle(cardPool, true);
-      this.board.appendToEvent(`Added the card ${card.name}`);
-      return {cardPool}
-    });
+    let {cardPool, cardStorage} = this.board.state;
+    let card: Card | undefined = this.transferItem(cardId, cardStorage, cardPool);
+    cardPool = this.board.shuffle(cardPool, true);
+    if(card) {
+      this.board.setState({cardPool, cardStorage});
+      this.board.appendToEvent(`Added card ${card.name}`);
+    } else {
+      this.board.appendToEvent(`Card is already in your possession. Adding 1 control instead`);
+      this.controlVariation(1);
+    };
+
   }
 
-  // adds an event in Event Storage to the Event Pool
+  // adds a new event to the event pool from the event storage
   private addEvent(eventId: number): void{
     this.board.setState(prevState => {
       let {eventPool, eventStorage} = prevState;
-      var event: Event = eventStorage.filter(event => event.id = eventId)[0];
-      let eventIndex: number = eventStorage.indexOf(event);
-      eventStorage.splice(eventIndex, 1);
-      eventPool.push(event);
+      this.transferItem(eventId, eventStorage, eventPool);
       eventPool = this.board.shuffle(eventPool, true);
-      return {eventPool}
+      return {eventPool, eventStorage}
     });
   }
 
+  // remove a card from the card pile or the hand and add it to the card storage for potential future use
   private removeCard(cardId: number): void{
-   this.board.setState(prevState => {
-     let cardPool = [...prevState.cardPool];
-     cardPool = cardPool.filter(card => card.id !== cardId);
-     if(JSON.stringify(cardPool) !== JSON.stringify(prevState.cardPool)) this.board.appendToEvent(`A card was removed`);
-     return {cardPool}
-   })
+    let {cardPool, cardStorage, hand} = this.board.state;
+    let card: Card | undefined = this.transferItem(cardId, cardPool, cardStorage);
+    if(card) {
+      this.board.appendToEvent(`Removed ${card.name}`);
+      this.board.setState({cardPool, cardStorage});
+    } else {
+      card = this.transferItem(cardId, hand, cardStorage);
+      if(card){
+        this.board.appendToEvent(`Removed ${card.name}`);
+        this.board.setState({hand, cardStorage});
+      } else console.log("Card wasn't in the hand or the card pool");
+    }
  }
 
-   // remove an event from the Event Storage or Pile
-   private removeEvent(eventId: number): void{
+  // remove an event from the Event storage or pool
+  private removeEvent(eventId: number): void{
     this.board.setState(prevState => {
-      let {eventStorage, eventPool} = prevState;
-      eventStorage = eventStorage.filter(event => event.id !== eventId);
+      let {eventPool, eventStorage} = prevState;
       eventPool = eventPool.filter(event => event.id !== eventId);
-      return {eventStorage, eventPool}
+      eventStorage = eventStorage.filter(event => event.id !== eventId);
+      return {eventPool, eventStorage}
     })
   }
 
@@ -93,6 +99,17 @@ class EffectExecution {
   private revealHidden(): void{
     let eventHiddenDesc: string = this.board.state.currentEvent.hiddenDesc;
     this.board.appendToEvent(eventHiddenDesc);
+  }
+
+  // attempts to find an item in one array and move it to the second array. If no item found it returns undefined
+  private transferItem(id: number, arr: Event[], arr2: Event[]): Event | undefined;
+  private transferItem(id: number, arr: Card[], arr2: Card[]): Card | undefined;
+  private transferItem(id: number, arr: any[], arr2: any[]) {
+    let item: Card | Event | undefined = arr.filter(item => item.id === id)[0];
+    let itemIndex: number = arr.indexOf(item);
+    arr.splice(itemIndex, 1);
+    if(item) arr2.push(item);
+    return item;
   }
 }
 
