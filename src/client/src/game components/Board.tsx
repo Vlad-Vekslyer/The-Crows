@@ -165,12 +165,14 @@ class Board extends React.Component<{}, BoardState> {
           effectExecution={effectExecution}
           gameState = {this.state.gameState}
           hand={this.state.hand}/>
-        <button onClick={() => this.drawCards(6)}>Draw to 6 cards</button>
-        <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
-        {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
       </div>
     )
   }
 }
 
 export default Board;
+
+
+// <button onClick={() => this.drawCards(6)}>Draw to 6 cards</button>
+// <button onClick={() => this.shuffle(this.state.cardPool)}>Shuffle</button>
+// {this.state.cardPool.length ? this.state.cardPool.map(card => {return <h1 key={card.id}>{card.name}</h1>}) : "Loading...."}
