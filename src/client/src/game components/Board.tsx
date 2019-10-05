@@ -1,11 +1,12 @@
 import React from "react";
+import {StyledBoard, StyledBottom} from "./style"
 import {Event, Card} from "../../../types/game"
 import EventDisplay from "./EventDisplay/EventDisplay"
 import Hand from "./Hand/Hand"
 import BoardState from "../game/BoardState"
 import GameState from "../game/GameState"
 import EffectExecution from "../game/EffectExecution"
-import ControlDisplay from "./ControlDisplay"
+import ControlDisplay from "./ControlDisplay/ControlDisplay"
 
 class Board extends React.Component<{}, BoardState> {
   effectExecution: EffectExecution
@@ -58,7 +59,7 @@ class Board extends React.Component<{}, BoardState> {
   drawCards(cardNum?: number): void{
     this.setState(prevState => {
       let {hand, cardPool, cardDiscard} = prevState;
-      for(let i = 0; i < (cardNum || 3); i++){
+      for(let i = 0; i < (cardNum || 5); i++){
         if(hand[i]) continue
         // shuffle discard pile into the card pool if the card pool is empty
         if(!cardPool.length) {
@@ -150,13 +151,14 @@ class Board extends React.Component<{}, BoardState> {
   render(){
     let effectExecution = new EffectExecution(this);
     return(
-      <div>
+      <StyledBoard>
         <EventDisplay
           drawCards = {this.drawCards}
           gameOver = {this.gameOver}
           gameState = {this.state.gameState}
           drawEvent = {this.drawEvent}
           event={this.state.currentEvent}/>
+        <StyledBottom>
         <ControlDisplay control={this.state.control}/>
         <Hand
           appendToEvent={this.appendToEvent}
@@ -165,7 +167,8 @@ class Board extends React.Component<{}, BoardState> {
           effectExecution={effectExecution}
           gameState = {this.state.gameState}
           hand={this.state.hand}/>
-      </div>
+        </StyledBottom>
+      </StyledBoard>
     )
   }
 }

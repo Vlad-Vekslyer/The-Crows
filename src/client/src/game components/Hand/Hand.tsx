@@ -1,4 +1,5 @@
 import React from "react"
+import {StyledHand} from "./style"
 import {Card} from "../../../../types/game"
 import CardDisplay from "./Card"
 import EffectExecution from "../../game/EffectExecution"
@@ -25,9 +26,9 @@ function Hand(props: Props){
       key={card.id}
       card={card}/>)
     return(
-      <div style={{marginBottom: 20, paddingBottom: 20, borderBottom: "1px solid black"}} id="hand">
+      <StyledHand style={{marginBottom: 20, paddingBottom: 20}} id="hand">
         {cards}
-      </div>
+      </StyledHand>
     )
   } else {
     return(

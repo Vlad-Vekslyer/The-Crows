@@ -1,5 +1,6 @@
 import React from "react";
 import {Event} from "../../../../types/game"
+import {StyledTextArea, StyledHeader} from "./style"
 import GameState from "../../game/GameState"
 
 // interface for a basic event
@@ -31,26 +32,26 @@ function EventDisplay(props: EventProps) {
 }
 
 function LoadedEventDisplay(props: EventProps){
-    let textareaOnClick = () => {
-      // user needs to click the textarea in order to move to the next event
-      if(props.gameState === GameState.finishedEvent){
-        props.drawEvent();
-        props.drawCards();
-      }
-      else if(props.gameState === GameState.won || props.gameState === GameState.lost) props.gameOver();
+  let textareaOnClick = () => {
+    // user needs to click the textarea in order to move to the next event
+    if(props.gameState === GameState.finishedEvent){
+      props.drawEvent();
+      props.drawCards();
     }
-    // render a basic event with a custom clickhandler
-    return(
-      <BasicEventDisplay event={props.event} textareaOnClick={textareaOnClick}/>
-    )
+    else if(props.gameState === GameState.won || props.gameState === GameState.lost) props.gameOver();
+  }
+  // render a basic event with a custom clickhandler
+  return(
+    <BasicEventDisplay event={props.event} textareaOnClick={textareaOnClick}/>
+  )
 }
 
 // displays the event that was handed to it and attaches a click handler to the text area
 function BasicEventDisplay(props: BaseEventProps){
   return(
-    <div id="event-display">
-      <header>{props.event.name}</header>
-      <textarea rows={15} cols={180} readOnly value={props.event.description} onClick={props.textareaOnClick} className="desc"/>
+    <div>
+      <StyledHeader>{props.event.name}</StyledHeader>
+      <StyledTextArea rows={15} readOnly value={props.event.description} onClick={props.textareaOnClick} className="desc"/>
     </div>
   )
 }

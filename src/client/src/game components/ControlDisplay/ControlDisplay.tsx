@@ -1,4 +1,8 @@
 import React from "react"
+import styled from "styled-components"
+
+const StyledControl = styled.span`
+  align-self: flex-end;`
 
 interface Props{
   control: number
@@ -6,9 +10,9 @@ interface Props{
 
 function ControlDisplay(props: Props){
   return(
-    <div id="control-display">
+    <StyledControl id="control-display">
       <span>Control: </span><span>{props.control}</span>
-    </div>
+    </StyledControl>
   )
 }
 

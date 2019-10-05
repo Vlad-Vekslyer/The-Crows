@@ -1,5 +1,6 @@
 import React from "react"
 import {Card, Effect} from "../../../../types/game"
+import {StyledCard} from "./style"
 import {ComboResponse} from "../../../../types/API"
 import EffectExecution from "../../game/EffectExecution"
 import GameState from "../../game/GameState"
@@ -62,7 +63,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   render(){
     let disablingGameState: GameState[] = [GameState.lost, GameState.won, GameState.finishedEvent]
     return(
-      <div className="card">
+      <StyledCard className="card">
         <h3>{this.props.card.name}</h3>
         <button disabled={disablingGameState.indexOf(this.props.gameState) !== -1} onClick={() => {
           this.props.discard(this.props.card);
@@ -73,7 +74,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
           this.props.effectExecution.exec(effects);
         }}>{this.state.comboDesc}</button>
         {this.state.resultDesc.length === 2 ? <span> High Profile</span> : undefined}
-      </div>
+      </StyledCard>
     )
   }
 }
