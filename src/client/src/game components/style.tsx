@@ -21,4 +21,5 @@ export const StyledBottom = styled.footer`
   @media (max-width: ${sizes.medium}px){
     flex-direction: column;
     align-items: center;
+    margin-top: 20px;
   }`
