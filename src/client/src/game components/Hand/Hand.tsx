@@ -26,7 +26,7 @@ function Hand(props: Props){
       key={card.id}
       card={card}/>)
     return(
-      <StyledHand style={{marginBottom: 20, paddingBottom: 20}} id="hand">
+      <StyledHand>
         {cards}
       </StyledHand>
     )
