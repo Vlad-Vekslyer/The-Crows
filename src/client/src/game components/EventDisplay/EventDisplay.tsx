@@ -51,7 +51,7 @@ function BasicEventDisplay(props: BaseEventProps){
   return(
     <div>
       <StyledHeader>{props.event.name}</StyledHeader>
-      <StyledTextArea rows={15} readOnly value={props.event.description} onClick={props.textareaOnClick} className="desc"/>
+      <StyledTextArea rows={18} readOnly value={props.event.description} onClick={props.textareaOnClick} className="desc"/>
     </div>
   )
 }
