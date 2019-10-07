@@ -1,5 +1,5 @@
 import React from "react"
-import {StyledHand} from "./style"
+import {StyledHand} from "./handStyle"
 import {Card} from "../../../../types/game"
 import CardDisplay from "./Card"
 import EffectExecution from "../../game/EffectExecution"

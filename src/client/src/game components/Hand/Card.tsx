@@ -1,6 +1,6 @@
 import React from "react"
 import {Card, Effect} from "../../../../types/game"
-import {StyledCard} from "./style"
+import * as style from "./cardStyle"
 import {ComboResponse} from "../../../../types/API"
 import EffectExecution from "../../game/EffectExecution"
 import GameState from "../../game/GameState"
@@ -63,18 +63,26 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   render(){
     let disablingGameState: GameState[] = [GameState.lost, GameState.won, GameState.finishedEvent]
     return(
-      <StyledCard className="card">
-        <h3>{this.props.card.name}</h3>
-        <button disabled={disablingGameState.indexOf(this.props.gameState) !== -1} onClick={() => {
+      <style.StyledCard isHighProfile={this.state.resultDesc.length === 2} onClick={() => {
+        if(disablingGameState.indexOf(this.props.gameState) === -1){
           this.props.discard(this.props.card);
           let resultDesc: string;
           let effects: Effect;
           this.state.successChance? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
           this.props.appendToEvent(resultDesc);
           this.props.effectExecution.exec(effects);
-        }}>{this.state.comboDesc}</button>
-        {this.state.resultDesc.length === 2 ? <span> High Profile</span> : undefined}
-      </StyledCard>
+        }
+      }}>
+        <style.StyledCardHeader>{this.props.card.name}</style.StyledCardHeader>
+        <style.StyledCardImage name={this.props.card.name}/>
+        <style.StyledCardBottom>
+          <style.StyledCardDescription>
+            <style.BoltIcon top={1} left={1}/><style.BoltIcon top={1} left={95}/>
+            {this.state.comboDesc}
+            <style.BoltIcon top={92} left={1}/><style.BoltIcon top={92} left={95}/>
+          </style.StyledCardDescription>
+        </style.StyledCardBottom>
+      </style.StyledCard>
     )
   }
 }
