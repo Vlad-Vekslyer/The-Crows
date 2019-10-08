@@ -1,9 +1,10 @@
 import React from "react"
-import {StyledHand} from "./handStyle"
+import {StyledHand, themes} from "./handStyle"
 import {Card} from "../../../../types/game"
 import CardDisplay from "./Card"
 import EffectExecution from "../../game/EffectExecution"
 import GameState from "../../game/GameState"
+import { ThemeProvider } from "styled-components";
 
 interface Props {
   hand: Card[],
@@ -15,7 +16,7 @@ interface Props {
 }
 
 function Hand(props: Props){
-  if(props.hand.length){
+  if(props.hand.length >= 3){
     let cards = props.hand.map(card => <CardDisplay
       gameState = {props.gameState}
       effectExecution={props.effectExecution}
@@ -26,9 +27,11 @@ function Hand(props: Props){
       key={card.id}
       card={card}/>)
     return(
-      <StyledHand>
-        {cards}
-      </StyledHand>
+      <ThemeProvider theme={themes[`${props.hand.length} Cards`]}>
+        <StyledHand>
+          {cards}
+        </StyledHand>
+      </ThemeProvider>
     )
   } else {
     return(

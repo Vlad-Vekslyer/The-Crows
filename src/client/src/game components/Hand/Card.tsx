@@ -63,15 +63,18 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   render(){
     let disablingGameState: GameState[] = [GameState.lost, GameState.won, GameState.finishedEvent]
     return(
-      <style.StyledCard isHighProfile={this.state.resultDesc.length === 2} onClick={() => {
-        if(disablingGameState.indexOf(this.props.gameState) === -1){
-          this.props.discard(this.props.card);
-          let resultDesc: string;
-          let effects: Effect;
-          this.state.successChance? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
-          this.props.appendToEvent(resultDesc);
-          this.props.effectExecution.exec(effects);
-        }
+      <style.StyledCard
+        isHighProfile={this.state.resultDesc.length === 2}
+        onClick={() => {
+          // if the current gameState is does not prevent card selection
+          if(disablingGameState.indexOf(this.props.gameState) === -1){
+            this.props.discard(this.props.card);
+            let resultDesc: string;
+            let effects: Effect;
+            this.state.successChance? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
+            this.props.appendToEvent(resultDesc);
+            this.props.effectExecution.exec(effects);
+          }
       }}>
         <style.StyledCardHeader>{this.props.card.name}</style.StyledCardHeader>
         <style.StyledCardImage name={this.props.card.name}/>

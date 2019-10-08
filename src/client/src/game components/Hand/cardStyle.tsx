@@ -21,13 +21,30 @@ const cardIcons: {[index:string]: string} = {
   "Threat": Threat
 }
 
+function getCardSpot(theme: any, cardNum: number){
+  return `
+    transform: ${theme[cardNum] ? theme[cardNum].rotation : "0"};
+    left: ${theme[cardNum] ? theme[cardNum].verticalLocation : "0"};
+    top: ${theme[cardNum] ? (theme[cardNum].horizontalLocation || "0") : "0"};
+    z-index: ${theme[cardNum] ? theme[cardNum].zIndex : "0"};`
+}
+
 export const StyledCard = styled('div')<{isHighProfile: boolean}>`
+    position: relative;
     margin: 0 2px;
     display: flex;
     flex-direction: column;
     width: 160px;
     box-shadow: ${props => {if(props.isHighProfile) return '0px 0px 18px #C60B0B'}};
-    font-family: Typewriter`;
+    font-family: Typewriter
+    &:first-child  {${props => getCardSpot(props.theme, 1)}}
+    &:nth-child(2) {${props => getCardSpot(props.theme, 2)}}
+    &:nth-child(3) {${props => getCardSpot(props.theme, 3)}}
+    &:nth-child(4) {${props => getCardSpot(props.theme, 4)}}
+    &:nth-child(5) {${props => getCardSpot(props.theme, 5)}}
+    &:hover{
+      cursor: pointer;
+    }`;
 
 export const StyledCardHeader = styled.h4`
     background-color: #454242;
