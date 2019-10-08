@@ -30,6 +30,7 @@ function getCardSpot(theme: any, cardNum: number){
 }
 
 export const StyledCard = styled('div')<{isHighProfile: boolean}>`
+    transition: top 500ms, transform 500ms;
     position: relative;
     margin: 0 2px;
     display: flex;
@@ -43,7 +44,9 @@ export const StyledCard = styled('div')<{isHighProfile: boolean}>`
     &:nth-child(4) {${props => getCardSpot(props.theme, 4)}}
     &:nth-child(5) {${props => getCardSpot(props.theme, 5)}}
     &:hover{
+      z-index: 5;
       cursor: pointer;
+      top: -20px;
     }`;
 
 export const StyledCardHeader = styled.h4`
