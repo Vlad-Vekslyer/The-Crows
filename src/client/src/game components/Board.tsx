@@ -7,6 +7,7 @@ import BoardState from "../game/BoardState"
 import GameState from "../game/GameState"
 import EffectExecution from "../game/EffectExecution"
 import ControlDisplay from "./ControlDisplay/ControlDisplay"
+import EasyNight from "../assets/EasyNight.mp3"
 
 class Board extends React.Component<{}, BoardState> {
   effectExecution: EffectExecution
@@ -59,7 +60,7 @@ class Board extends React.Component<{}, BoardState> {
   drawCards(cardNum?: number): void{
     this.setState(prevState => {
       let {hand, cardPool, cardDiscard} = prevState;
-      for(let i = 0; i < (cardNum || 5); i++){
+      for(let i = 0; i < (cardNum || 3); i++){
         if(hand[i]) continue
         // shuffle discard pile into the card pool if the card pool is empty
         if(!cardPool.length) {
@@ -152,6 +153,9 @@ class Board extends React.Component<{}, BoardState> {
     let effectExecution = new EffectExecution(this);
     return(
       <StyledBoard>
+        <audio autoPlay>
+          <source src={EasyNight} type="audio/mp3"/>
+        </audio>
         <EventDisplay
           drawCards = {this.drawCards}
           gameOver = {this.gameOver}

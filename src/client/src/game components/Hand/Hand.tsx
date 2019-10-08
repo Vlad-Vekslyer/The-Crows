@@ -16,7 +16,7 @@ interface Props {
 }
 
 function Hand(props: Props){
-  if(props.hand.length >= 3){
+  if(props.hand.length){
     let cards = props.hand.map(card => <CardDisplay
       gameState = {props.gameState}
       effectExecution={props.effectExecution}

@@ -15,12 +15,26 @@ interface CardSpot {
 interface CardSpots {
   1: CardSpot,
   2: CardSpot,
-  3: CardSpot,
+  3?: CardSpot,
   4?: CardSpot,
   5?: CardSpot
 }
 
 export const themes: Themes = {
+  "2 Cards": {
+    1: {
+      rotation: "rotate(-2deg);",
+      verticalLocation: "10px",
+      horizontalLocation: "8px",
+      zIndex: "2"
+    },
+    2: {
+      rotation: "rotate(2deg);",
+      verticalLocation: "10px",
+      horizontalLocation: "8px",
+      zIndex: "1"
+    }
+  },
   "3 Cards": {
     1: {
       rotation: "rotate(-6deg);",
