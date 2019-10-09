@@ -4,6 +4,7 @@ import Board from './game components/Board'
 import background from './assets/background.jpg'
 import veteran from './assets/veteran.ttf'
 import Bohemian from './assets/Bohemian.ttf'
+import CardDraw from "./assets/CardDraw.mp3"
 
 const StyledApp = styled.div`
     color: white;
@@ -19,11 +20,11 @@ const StyledApp = styled.div`
       src: url(${Bohemian}) format("truetype");
     }`
 
-class App extends React.Component<{}, {}> {  
+class App extends React.Component<{}, {}> {
   render(){
     return(
       <StyledApp>
-        <Board />
+        <Board cardDrawSound={new Audio(CardDraw)}/>
       </StyledApp>
     )
   }
