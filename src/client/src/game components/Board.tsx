@@ -7,7 +7,7 @@ import BoardState from "../game/BoardState"
 import GameState from "../game/GameState"
 import EffectExecution from "../game/EffectExecution"
 import ControlDisplay from "./ControlDisplay/ControlDisplay"
-import EasyNight from "../assets/EasyNight.mp3"
+import AudioPlayer from "./AudioPlayer/AudioPlayer"
 
 class Board extends React.Component<{}, BoardState> {
   effectExecution: EffectExecution
@@ -21,7 +21,7 @@ class Board extends React.Component<{}, BoardState> {
       cardPool: [],
       cardDiscard: [],
       hand: [],
-      control: 5,
+      control: 3,
       gameState: GameState.waitingInput,
       currentEvent: {name: "Loading", description:"Loading....", isStarter: false, id: -1, hiddenDesc: "seriously"}
     }
@@ -153,9 +153,7 @@ class Board extends React.Component<{}, BoardState> {
     let effectExecution = new EffectExecution(this);
     return(
       <StyledBoard>
-        <audio autoPlay>
-          <source src={EasyNight} type="audio/mp3"/>
-        </audio>
+        <AudioPlayer/>
         <EventDisplay
           drawCards = {this.drawCards}
           gameOver = {this.gameOver}

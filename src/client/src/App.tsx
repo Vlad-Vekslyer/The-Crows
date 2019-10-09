@@ -19,8 +19,7 @@ const StyledApp = styled.div`
       src: url(${Bohemian}) format("truetype");
     }`
 
-class App extends React.Component<{}, {}> {
-
+class App extends React.Component<{}, {}> {  
   render(){
     return(
       <StyledApp>
