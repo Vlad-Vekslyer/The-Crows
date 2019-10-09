@@ -40,7 +40,7 @@ class AudioPlayer extends React.Component<{}, {isPaused: boolean}>{
   }
 
   resetHandler(){
-    let audio: HTMLAudioElement = document.getElementsByTagName("audio")[0];
+    let audio: HTMLAudioElement = document.getElementById("background-music") as HTMLAudioElement;
     audio.load();
     audio.play();
     this.setState({isPaused: audio.paused});
@@ -49,7 +49,7 @@ class AudioPlayer extends React.Component<{}, {isPaused: boolean}>{
   render(){
     return(
       <StyledAudioPlayer>
-        <audio loop={true}>
+        <audio id="background-music" loop={true}>
           <source src={EasyNight}/>
         </audio>
         <StyledButton onClick={this.playHandler}>{this.state.isPaused ? "▶" : "❚❚"}</StyledButton>

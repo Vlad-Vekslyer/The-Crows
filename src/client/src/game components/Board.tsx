@@ -8,6 +8,7 @@ import GameState from "../game/GameState"
 import EffectExecution from "../game/EffectExecution"
 import ControlDisplay from "./ControlDisplay/ControlDisplay"
 import AudioPlayer from "./AudioPlayer/AudioPlayer"
+import CardDraw from "../assets/CardDraw.mp3"
 
 class Board extends React.Component<{}, BoardState> {
   effectExecution: EffectExecution
@@ -72,7 +73,9 @@ class Board extends React.Component<{}, BoardState> {
         hand.push(drawnCard);
       }
       return {hand, cardPool, cardDiscard}
-    })
+    });
+    let audio: HTMLAudioElement = document.getElementById('card-draw-sound') as HTMLAudioElement
+    audio.play();
   }
 
   // remove the last event from the event pile and set it to be the current event
@@ -113,7 +116,7 @@ class Board extends React.Component<{}, BoardState> {
   closeEvent(): void{
     let gameState: GameState;
     this.appendToEvent("Click here to continue....");
-    if(this.state.eventPool.length) {
+    if(this.state.eventPool.length && this.state.control > 0) {
       gameState = GameState.finishedEvent;
     } else if(this.state.control <= 0){
       gameState = GameState.lost;
@@ -153,6 +156,7 @@ class Board extends React.Component<{}, BoardState> {
     let effectExecution = new EffectExecution(this);
     return(
       <StyledBoard>
+        <audio id="card-draw-sound"><source src={CardDraw}/></audio>
         <AudioPlayer/>
         <EventDisplay
           drawCards = {this.drawCards}

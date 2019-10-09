@@ -13,7 +13,8 @@ class EffectExecution {
   exec(effect: Effect){
     for(let property in effect){
       // don't do anything with null values
-      if(effect[property]){
+      // a value of 0 to drawExtra means that we draw to three cards with no additions
+      if(effect[property] || (property === "drawExtra" && effect[property] === 0)){
         switch(property){
           case "controlVariation": this.controlVariation(effect.controlVariation); break;
           case "addEvent": this.addEvent(effect.addEvent); break;
@@ -91,7 +92,7 @@ class EffectExecution {
 
   // draw to three cards and then draw the specified amount of extra cards
   private drawExtra(amount: number): void{
-    this.board.drawCards(3 + amount);
+    this.board.drawCards(this.board.state.hand.length + amount);
     this.board.appendToEvent(`You drew an extra card`);
   }
 
