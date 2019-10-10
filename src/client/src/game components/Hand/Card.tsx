@@ -50,7 +50,10 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
     if(this.props.eventId > 0 && prevProps.eventId !== this.props.eventId){
       fetch(`/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
       .then(res => res.json())
-      .then(res => this.setState(res));
+      .then(res => {
+        if(res.successChance) this.setState(res);
+        else this.setState({comboDesc: res.comboDesc, resultDesc: res.resultDesc, effects: res.effects, successChance: undefined})
+      });
     }
   }
 
@@ -71,6 +74,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
             this.props.discard(this.props.card);
             let resultDesc: string;
             let effects: Effect;
+            // having multiple result descriptions means the combination is high profile
             this.state.successChance ? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
             this.props.appendToEvent(resultDesc);
             this.props.effectExecution.exec(effects);

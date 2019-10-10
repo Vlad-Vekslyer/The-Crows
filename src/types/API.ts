@@ -4,6 +4,7 @@ import {Effect} from "./game"
 export interface ComboResponse {
   comboDesc: string,
   resultDesc: string[] | string,
+  // a single Effect type can contain multiple distinct mechanical effects
   effects: Effect[] | Effect,
   successChance?: number
 }
