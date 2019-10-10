@@ -2,6 +2,7 @@ import Board from "../game components/Board"
 import {Event, Effect, Card} from "../../../types/game"
 
 
+
 class EffectExecution {
   private board: Board
 
@@ -83,7 +84,7 @@ class EffectExecution {
   // add to or subtract from the current control amount
   private controlVariation(amount: number): void{
     this.board.setState(prevState => {
-      let newControl: number = prevState.control + amount
+      let newControl: number = prevState.control + amount;
       return {control: newControl}
     });
     let word: string = amount > 0 ? "received" : "lost";

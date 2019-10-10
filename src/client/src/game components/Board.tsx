@@ -119,14 +119,16 @@ class Board extends React.Component<Props, BoardState> {
   closeEvent(): void{
     let gameState: GameState;
     this.appendToEvent("Click here to continue....");
-    if(this.state.eventPool.length && this.state.control > 0) {
-      gameState = GameState.finishedEvent;
-    } else if(this.state.control <= 0){
-      gameState = GameState.lost;
-    } else {
-      gameState = GameState.won;
-    }
-    this.setState({gameState});
+    this.setState(prevState => {
+      if(prevState.eventPool.length && prevState.control > 0) {
+        gameState = GameState.finishedEvent;
+      } else if(prevState.control <= 0){
+        gameState = GameState.lost;
+      } else {
+        gameState = GameState.won;
+      }
+      return {gameState};
+    });
   }
 
   // display a game end screen
