@@ -32,17 +32,25 @@ function getCardSpot(theme: any, cardNum: number){
 export const StyledCard = styled('div')<{isHighProfile: boolean}>`
     transition: top 500ms, transform 500ms;
     position: relative;
-    margin: 30px 2px 0;
+    margin-left: 2px;
+    margin-top: 20px;
+    margin-right: 2px;
     display: flex;
     flex-direction: column;
     width: 160px;
+    height: 290px;
     box-shadow: ${props => {if(props.isHighProfile) return '0px 0px 18px #C60B0B'}};
-    font-family: Typewriter
-    &:first-child  {${props => getCardSpot(props.theme, 1)}}
-    &:nth-child(2) {${props => getCardSpot(props.theme, 2)}}
-    &:nth-child(3) {${props => getCardSpot(props.theme, 3)}}
-    &:nth-child(4) {${props => getCardSpot(props.theme, 4)}}
-    &:nth-child(5) {${props => getCardSpot(props.theme, 5)}}
+    font-family: Typewriter;
+    @media (min-width: ${sizes.medium}px){
+      &:first-child  {${props => getCardSpot(props.theme, 1)}}
+      &:nth-child(2) {${props => getCardSpot(props.theme, 2)}}
+      &:nth-child(3) {${props => getCardSpot(props.theme, 3)}}
+      &:nth-child(4) {${props => getCardSpot(props.theme, 4)}}
+      &:nth-child(5) {${props => getCardSpot(props.theme, 5)}}
+    }
+    @media (max-width: ${sizes.medium}px){
+      margin-top: 10px;
+    }
     &:hover{
       z-index: 5;
       cursor: pointer;
@@ -51,6 +59,7 @@ export const StyledCard = styled('div')<{isHighProfile: boolean}>`
 
 export const StyledCardHeader = styled.h4`
     background-color: #454242;
+    height: 18.5px;
     border: 1px solid #C7C7C7;
     text-align: center;
     margin: 0;

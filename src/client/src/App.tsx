@@ -5,6 +5,7 @@ import background from './assets/background.jpg'
 import veteran from './assets/veteran.ttf'
 import Bohemian from './assets/Bohemian.ttf'
 import CardDraw from "./assets/CardDraw.mp3"
+import {sizes} from "./game components/style"
 
 const StyledApp = styled.div`
     color: white;
@@ -18,6 +19,9 @@ const StyledApp = styled.div`
     @font-face{
       font-family: "Bohemian";
       src: url(${Bohemian}) format("truetype");
+    }
+    @media (max-width: ${sizes.medium}px){
+      height: 100%;
     }`
 
 class App extends React.Component<{}, {}> {

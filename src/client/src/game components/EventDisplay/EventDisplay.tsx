@@ -47,7 +47,7 @@ function LoadedEventDisplay(props: EventProps){
   )
 }
 
-// displays the event that was handed to it and attaches a click handler to the text area
+// displays the event that   was handed to it and attaches a click handler to the text area
 function BasicEventDisplay(props: BaseEventProps){
   let [isTextareaHovered, setHovered] = useState(false);
   return(
