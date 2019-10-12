@@ -8,7 +8,6 @@ import GameState from "../game/GameState"
 import EffectExecution from "../game/EffectExecution"
 import ControlDisplay from "./ControlDisplay/ControlDisplay"
 import AudioPlayer from "./AudioPlayer/AudioPlayer"
-import InfoCon from './InfoDisplay/Infocon'
 
 interface Props {
   cardDrawSound: HTMLAudioElement
@@ -162,7 +161,6 @@ class Board extends React.Component<Props, BoardState> {
     let effectExecution = new EffectExecution(this);
     return(
       <StyledBoard>
-        <InfoCon message="hi"/>
         <AudioPlayer/>
         <EventDisplay
           drawCards = {this.drawCards}
