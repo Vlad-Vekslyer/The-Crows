@@ -32,7 +32,7 @@ function getCardSpot(theme: any, cardNum: number){
 export const StyledCard = styled('div')<{isHighProfile: boolean}>`
     transition: top 500ms, transform 500ms;
     position: relative;
-    margin: 0 2px;
+    margin: 30px 2px 0;
     display: flex;
     flex-direction: column;
     width: 160px;

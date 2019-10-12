@@ -114,7 +114,9 @@ export const themes: Themes = {
 
 export const StyledHand = styled.div`
   display: flex;
-  margin: 30px auto 0;
+  height: 320px;
+  position: relative;
+  margin: 0 auto;
   justify-content: center
   @media (max-width: ${sizes.small}px){
     flex-wrap: wrap;
