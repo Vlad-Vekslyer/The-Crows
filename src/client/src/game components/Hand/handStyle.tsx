@@ -105,7 +105,7 @@ export const themes: Themes = {
     },
     5: {
       rotation: "rotate(12deg);",
-      horizontalLocation: "25px",
+      horizontalLocation: "24px",
       verticalLocation: "-43px",
       zIndex: "0"
     }

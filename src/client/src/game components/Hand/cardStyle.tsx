@@ -33,7 +33,7 @@ export const StyledCard = styled('div')<{isHighProfile: boolean}>`
     transition: top 500ms, transform 500ms;
     position: relative;
     margin-left: 2px;
-    margin-top: 20px;
+    margin-top: 14px;
     margin-right: 2px;
     display: flex;
     flex-direction: column;

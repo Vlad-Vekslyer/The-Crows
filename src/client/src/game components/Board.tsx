@@ -65,7 +65,7 @@ class Board extends React.Component<Props, BoardState> {
   drawCards(cardNum?: number): void{
     this.setState(prevState => {
       let {hand, cardPool, cardDiscard} = prevState;
-      for(let i = 0; i < (cardNum || 3); i++){
+      for(let i = 0; i < (cardNum || 5); i++){
         if(hand[i]) continue
         // shuffle discard pile into the card pool if the card pool is empty
         if(!cardPool.length) {
