@@ -35,7 +35,7 @@ function Hand(props: Props){
           {cards}
           <Infocon
             messageLocation={{left: -20, top: -80}}
-            message={"Cards are the different ways you can react to the story.\nA card outlined in red has a chance of failure,\n but can return a handsome reward."}
+            message={"Cards are the different ways you can react to the story.\nA card outlined in red has a chance of failure,\nbut can return a handsome reward."}
             displayIcon={isHovered}/>
         </StyledHand>
       </ThemeProvider>
