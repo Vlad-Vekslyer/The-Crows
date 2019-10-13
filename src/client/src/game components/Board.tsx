@@ -62,11 +62,10 @@ class Board extends React.Component<Props, BoardState> {
   }
 
   // draw either up to three cards or up to specified number of cards
-  async drawCards(cardNum?: number): Promise<any>{
-    // initialize the sound as an empty promise that we can instantly resolve in case the card draw sound is not loaded
-    let cardDrawSound = Promise.resolve();
-    if(this.props.cardDrawSound.readyState === 4) {cardDrawSound = this.props.cardDrawSound.play()};
+  drawCards(cardNum?: number): void{
+    this.playSound(this.props.cardDrawSound);
     this.setState(prevState => {
+      if(cardNum && cardNum > 5) {cardNum = 5};
       let {hand, cardPool, cardDiscard} = prevState;
       for(let i = 0; i < (cardNum || 5); i++){
         if(hand[i]) continue
@@ -81,7 +80,20 @@ class Board extends React.Component<Props, BoardState> {
       }
       return {hand, cardPool, cardDiscard}
     });
-    await cardDrawSound
+  }
+
+
+  playSound(sound: HTMLAudioElement): Promise<any>{
+    return new Promise((resolve) => {
+      // play a sound if it's fully loaded.
+      if(sound.readyState === 4){
+        sound.play()
+        .then(() => resolve())
+      } else {
+        // resolve an empty promise if sound is not loaded
+        resolve()
+      }
+    })
   }
 
   // remove the last event from the event pile and set it to be the current event
