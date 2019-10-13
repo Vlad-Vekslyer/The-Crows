@@ -114,7 +114,6 @@ export const themes: Themes = {
 
 export const StyledHand = styled.div`
   display: flex;
-  height: 320px;
   position: relative;
   margin: 0 auto;
   justify-content: center

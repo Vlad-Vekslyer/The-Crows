@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const sizes = {
   large: 1140,
   medium: 1000,
-  small: 750
+  small: 870
 }
 
 export const StyledBoard = styled.div`

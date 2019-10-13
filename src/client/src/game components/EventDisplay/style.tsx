@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import revolver from "../../assets/revolver.png"
+import {sizes} from "../style"
 
 export const StyledTextArea = styled.textarea`
   width: 100%;
@@ -16,7 +17,10 @@ export const StyledTextArea = styled.textarea`
   background-image: url(${revolver});
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;`
+  background-repeat: no-repeat;
+  @media(max-width:${sizes.small}px){
+    font-size: 1em;
+  }`
 
 export const StyledHeader = styled.header`
   display: block;
