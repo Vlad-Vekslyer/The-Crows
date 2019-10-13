@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
 export const sizes = {
-  large: 1140,
-  medium: 1000,
+  large: 1145,
+  medium: 1015,
   small: 870
 }
 
@@ -21,5 +21,4 @@ export const StyledBottom = styled.footer`
   @media (max-width: ${sizes.medium}px){
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
   }`

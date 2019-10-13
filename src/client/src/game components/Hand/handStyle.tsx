@@ -116,6 +116,7 @@ export const StyledHand = styled.div`
   display: flex;
   position: relative;
   margin: 0 auto;
+  padding-right: 25px;
   justify-content: center
   @media (max-width: ${sizes.small}px){
     flex-wrap: wrap;

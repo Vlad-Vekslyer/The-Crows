@@ -4,7 +4,7 @@ import EasyNight from "../../assets/EasyNight.mp3"
 
 const StyledAudioPlayer = styled.div`
     display: inline;
-    position: fixed;`
+    position: absolute;`
 
 const StyledButton = styled.button`
     border: none;

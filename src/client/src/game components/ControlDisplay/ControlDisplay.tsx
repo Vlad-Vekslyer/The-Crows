@@ -29,11 +29,12 @@ interface Props{
 }
 
 function ControlDisplay(props: Props){
-  let [isHovered, setHovered] = useState(false)
+  let [isHovered, setHovered] = useState(false);
+  let messageLocation = window.innerWidth <= sizes.small ? {left: 45, top: -80} : {left: 65, top: -90}
   return(
     <StyledControl onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <Infocon
-        messageLocation={{left: 65, top: -90}}
+        messageLocation={messageLocation}
         displayIcon={isHovered}
         message={"Your gang's overall\ncontrol of London"}
       />
