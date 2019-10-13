@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import {sizes} from "../style"
 
 const Message = styled('p')<{displayMessage: boolean, location?: Location}>`
     display: ${props => props.displayMessage ? 'inline-block' : 'none'};
@@ -13,7 +14,10 @@ const Message = styled('p')<{displayMessage: boolean, location?: Location}>`
     position: relative;
     margin: 5px;
     top: ${props => props.location ? props.location.top : "0"}px
-    left: ${props => props.location ? props.location.left : "0"}px`
+    left: ${props => props.location ? props.location.left : "0"}px
+    @media(max-width:${sizes.small}px){
+      font-size: 0.8em;
+    }`
 
 
 const Icon = styled('span')<{displayIcon: boolean}>`

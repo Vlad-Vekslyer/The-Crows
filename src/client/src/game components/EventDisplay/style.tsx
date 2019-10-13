@@ -4,6 +4,7 @@ import {sizes} from "../style"
 
 export const StyledTextArea = styled.textarea`
   width: 100%;
+  resize: none;
   background-color: black;
   color: white;
   font-family: "Typewriter";

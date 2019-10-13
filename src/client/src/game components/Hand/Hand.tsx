@@ -6,6 +6,7 @@ import EffectExecution from "../../game/EffectExecution"
 import GameState from "../../game/GameState"
 import { ThemeProvider } from "styled-components";
 import Infocon from "../InfoDisplay/Infocon"
+import {sizes} from "../style"
 
 interface Props {
   hand: Card[],
@@ -17,6 +18,7 @@ interface Props {
 }
 
 function Hand(props: Props){
+  let messageLocation = window.innerWidth <= sizes.small ? {left: -20, top: -80} : {left: 80, top: -80}
   let [isHovered, setHovered] = useState(false);
   if(props.hand.length){
     let cards = props.hand.map(card => <CardDisplay
@@ -33,8 +35,8 @@ function Hand(props: Props){
         <StyledHand onMouseOver={() => setHovered(true)} onMouseOut={() => setHovered(false)}>
           {cards}
           <Infocon
-            messageLocation={{left: 80, top: -80}}
-            message={"Cards are the different ways you can react to the story.\nA card outlined in red has a chance of failure but can return a handsome reward."}
+            messageLocation={messageLocation}
+            message={"Cards are the different ways you can react to the story.\nA card outlined in red has a chance of failure,\n but can return a handsome reward."}
             displayIcon={isHovered}/>
         </StyledHand>
       </ThemeProvider>
