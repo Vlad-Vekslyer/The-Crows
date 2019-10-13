@@ -57,7 +57,7 @@ function BasicEventDisplay(props: BaseEventProps){
         <Infocon
           displayIcon={isTextareaHovered}
           message={"The event box displays the current story as it progresses.\nIt will also inform you of effects,\nsuch as a an extra card being drawn."}/>
-        <StyledTextArea rows={18} readOnly value={props.event.description} onClick={props.textareaOnClick} className="desc"/>
+        <StyledTextArea rows={17} readOnly value={props.event.description} onClick={props.textareaOnClick} className="desc"/>
       </div>
     </section>
   )

@@ -20,7 +20,7 @@ const StyledApp = styled.div`
       font-family: "Bohemian";
       src: url(${Bohemian}) format("truetype");
     }
-    @media (max-height:753px), (max-width: ${sizes.medium}px){
+    @media (max-height:713px), (max-width: ${sizes.medium}px){
       height: 100%;
     }`
 

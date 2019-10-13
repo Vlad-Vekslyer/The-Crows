@@ -45,7 +45,7 @@ export const StyledCard = styled('div')<{isHighProfile: boolean}>`
     height: 290px;
     box-shadow: ${props => {if(props.isHighProfile) return '0px 0px 18px #C60B0B'}};
     font-family: Typewriter;
-    @media (min-width: ${sizes.medium}px) and (min-height: 754px){
+    @media (min-width: ${sizes.medium}px) and (min-height: 713px){
       &:first-child  {${props => getCardSpot(props.theme, 1)}}
       &:nth-child(2) {${props => getCardSpot(props.theme, 2)}}
       &:nth-child(3) {${props => getCardSpot(props.theme, 3)}}
