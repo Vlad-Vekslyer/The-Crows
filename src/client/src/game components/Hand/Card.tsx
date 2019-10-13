@@ -60,7 +60,8 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   componentDidMount(){
     fetch(`/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
     .then(res => res.json())
-    .then(res => this.setState(res));
+    .then(res => this.setState(res))
+    .catch(err => console.error(err));
   }
 
   render(){

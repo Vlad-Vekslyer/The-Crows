@@ -62,25 +62,26 @@ class Board extends React.Component<Props, BoardState> {
   }
 
   // draw either up to three cards or up to specified number of cards
-  drawCards(cardNum?: number): void{
-    this.props.cardDrawSound.play()
-    .then(() => {
-      this.setState(prevState => {
-        let {hand, cardPool, cardDiscard} = prevState;
-        for(let i = 0; i < (cardNum || 5); i++){
-          if(hand[i]) continue
-          // shuffle discard pile into the card pool if the card pool is empty
-          if(!cardPool.length) {
-            cardPool = [...prevState.cardDiscard];
-            cardPool = this.shuffle(cardPool, true);
-            cardDiscard = [];
-          }
-          let drawnCard: Card = cardPool.splice(cardPool.length - 1)[0];
-          hand.push(drawnCard);
+  async drawCards(cardNum?: number): Promise<any>{
+    // initialize the sound as an empty promise that we can instantly resolve in case the card draw sound is not loaded
+    let cardDrawSound = Promise.resolve();
+    if(this.props.cardDrawSound.readyState === 4) {cardDrawSound = this.props.cardDrawSound.play()};
+    this.setState(prevState => {
+      let {hand, cardPool, cardDiscard} = prevState;
+      for(let i = 0; i < (cardNum || 5); i++){
+        if(hand[i]) continue
+        // shuffle discard pile into the card pool if the card pool is empty
+        if(!cardPool.length) {
+          cardPool = [...prevState.cardDiscard];
+          cardPool = this.shuffle(cardPool, true);
+          cardDiscard = [];
         }
-        return {hand, cardPool, cardDiscard}
-      });
+        let drawnCard: Card = cardPool.splice(cardPool.length - 1)[0];
+        hand.push(drawnCard);
+      }
+      return {hand, cardPool, cardDiscard}
     });
+    await cardDrawSound
   }
 
   // remove the last event from the event pile and set it to be the current event
