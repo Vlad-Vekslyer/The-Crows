@@ -9,6 +9,7 @@ import Negotiation from "../../assets/icons/Negotiation.png"
 import PoliceCorruption from "../../assets/icons/PoliceCorruption.png"
 import Threat from "../../assets/icons/Threat.png"
 import Bolt from "../../assets/Bolt.png"
+import HeavyArmedAssault from "../../assets/icons/HeavyArmedAssault.png"
 
 const cardIcons: {[index:string]: string} = {
   "Assault": Assault,
@@ -18,7 +19,8 @@ const cardIcons: {[index:string]: string} = {
   "Investigation": Investigation,
   "Negotiation": Negotiation,
   "Police Corruption": PoliceCorruption,
-  "Threat": Threat
+  "Threat": Threat,
+  "Heavy Assault": HeavyArmedAssault
 }
 
 function getCardSpot(theme: any, cardNum: number){
