@@ -63,22 +63,24 @@ class Board extends React.Component<Props, BoardState> {
 
   // draw either up to three cards or up to specified number of cards
   drawCards(cardNum?: number): void{
-    this.setState(prevState => {
-      let {hand, cardPool, cardDiscard} = prevState;
-      for(let i = 0; i < (cardNum || 5); i++){
-        if(hand[i]) continue
-        // shuffle discard pile into the card pool if the card pool is empty
-        if(!cardPool.length) {
-          cardPool = [...prevState.cardDiscard];
-          cardPool = this.shuffle(cardPool, true);
-          cardDiscard = [];
+    this.props.cardDrawSound.play()
+    .then(() => {
+      this.setState(prevState => {
+        let {hand, cardPool, cardDiscard} = prevState;
+        for(let i = 0; i < (cardNum || 5); i++){
+          if(hand[i]) continue
+          // shuffle discard pile into the card pool if the card pool is empty
+          if(!cardPool.length) {
+            cardPool = [...prevState.cardDiscard];
+            cardPool = this.shuffle(cardPool, true);
+            cardDiscard = [];
+          }
+          let drawnCard: Card = cardPool.splice(cardPool.length - 1)[0];
+          hand.push(drawnCard);
         }
-        let drawnCard: Card = cardPool.splice(cardPool.length - 1)[0];
-        hand.push(drawnCard);
-      }
-      return {hand, cardPool, cardDiscard}
+        return {hand, cardPool, cardDiscard}
+      });
     });
-    if(this.props.cardDrawSound.readyState === 4) this.props.cardDrawSound.play();
   }
 
   // remove the last event from the event pile and set it to be the current event
