@@ -67,7 +67,7 @@ class Board extends React.Component<Props, BoardState> {
     this.setState(prevState => {
       if(cardNum && cardNum > 5) {cardNum = 5};
       let {hand, cardPool, cardDiscard} = prevState;
-      for(let i = 0; i < (cardNum || 5); i++){
+      for(let i = 0; i < (cardNum || 3); i++){
         if(hand[i]) continue
         // shuffle discard pile into the card pool if the card pool is empty
         if(!cardPool.length) {
@@ -83,7 +83,7 @@ class Board extends React.Component<Props, BoardState> {
   }
 
 
-  playSound(sound: HTMLAudioElement): Promise<any>{
+  playSound(sound: HTMLAudioElement): Promise<void>{
     return new Promise((resolve) => {
       // play a sound if it's fully loaded.
       if(sound.readyState === 4){

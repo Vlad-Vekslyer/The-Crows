@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {Event} from "../../../../types/game"
 import {StyledTextArea, StyledHeader} from "./style"
 import GameState from "../../game/GameState"
@@ -49,7 +49,13 @@ function LoadedEventDisplay(props: EventProps){
 
 // displays the event that   was handed to it and attaches a click handler to the text area
 function BasicEventDisplay(props: BaseEventProps){
+  // textArea is initialized as undefined and is later used to reference the textarea
+  let textArea: React.MutableRefObject<HTMLTextAreaElement | undefined> = useRef();
   let [isTextareaHovered, setHovered] = useState(false);
+  // whenever the event text is appended, scroll to the bottom of the text
+  useEffect(() => {
+    if(textArea.current) textArea.current.scrollTo(0, textArea.current.scrollHeight)
+  }, [props.event.description])
   return(
     <section id="top">
       <StyledHeader>{props.event.name}</StyledHeader>
@@ -57,7 +63,7 @@ function BasicEventDisplay(props: BaseEventProps){
         <Infocon
           displayIcon={isTextareaHovered}
           message={"The event box displays the current story as it progresses.\nIt will also inform you of effects,\nsuch as a an extra card being drawn."}/>
-        <StyledTextArea rows={17} readOnly value={props.event.description} onClick={props.textareaOnClick} className="desc"/>
+        <StyledTextArea ref={textArea as React.MutableRefObject<HTMLTextAreaElement>} rows={17} readOnly value={props.event.description} onClick={props.textareaOnClick}/>
       </div>
     </section>
   )
