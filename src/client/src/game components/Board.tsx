@@ -63,7 +63,6 @@ class Board extends React.Component<Props, BoardState> {
 
   // draw either up to three cards or up to specified number of cards
   drawCards(cardNum?: number): void{
-    this.playSound(this.props.cardDrawSound);
     this.setState(prevState => {
       if(cardNum && cardNum > 5) {cardNum = 5};
       let {hand, cardPool, cardDiscard} = prevState;
@@ -157,8 +156,7 @@ class Board extends React.Component<Props, BoardState> {
 
   // makes initial API calls to receive all cards and events
   componentDidMount(){
-    // let request = new Request('http://localhost:3001/api/start',{headers:{'Access-Control-Allow-Origin': '*'}});
-    fetch('http://localhost:3001/api/start')
+    fetch(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/start`)
     .then(res => res.json())
     .then(res => {
       this.setState({

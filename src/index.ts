@@ -13,17 +13,19 @@ import {ComboResponse} from "./types/API";
 import * as game from './types/game';
 import * as getCombo from './functions/getCombo';
 
-app.use(express.static(path.join(`${__dirname.substring(0, __dirname.indexOf('output'))}`,`src/client/build/`)));
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', `${process.env.HOST}`);
+  let port = process.env.ENV == "PROD" ? process.env.PORT : "3000";
+  res.setHeader('Access-Control-Allow-Origin', `${process.env.HOST}:${port}`);
   next();
 })
 
-// send the production application
-app.get("/", (req, res) => {
-  res.sendFile('index.html');
-})
-
+if(process.env.ENV == "PROD"){
+  app.use(express.static(path.join(`${__dirname.substring(0, __dirname.indexOf('output'))}`,`src/client/build/`)));
+  // send the production application
+  app.get("/", (req, res) => {
+    res.sendFile('index.html');
+  });
+}
 // get all the cards and events needed at the start of the game
 app.get("/api/start", async (req, res) => {
   let db = new Database();

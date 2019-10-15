@@ -7,6 +7,7 @@ import Bohemian from './assets/Bohemian.ttf'
 import CardDraw from "./assets/CardDraw.mp3"
 import {sizes} from "./game components/style"
 
+
 const StyledApp = styled.div`
     color: white;
     height: 100vh;
