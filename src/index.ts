@@ -2,6 +2,7 @@ import * as express from "express";
 import mysql = require("mysql");
 import dotenv = require("dotenv");
 import bodyParser = require("body-parser");
+import path = require("path");
 const app = express();
 
 dotenv.config();
@@ -11,6 +12,17 @@ import Database from "./db_Util/PromiseWrapper";
 import {ComboResponse} from "./types/API";
 import * as game from './types/game';
 import * as getCombo from './functions/getCombo';
+
+app.use(express.static(path.join(`${__dirname.substring(0, __dirname.indexOf('output'))}`,`src/client/build/`)));
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', `${process.env.HOST}`);
+  next();
+})
+
+// send the production application
+app.get("/", (req, res) => {
+  res.sendFile('index.html');
+})
 
 // get all the cards and events needed at the start of the game
 app.get("/api/start", async (req, res) => {
@@ -78,6 +90,6 @@ app.get("/api/event/:eventId", async (req, res) => {
   res.json(event);
 });
 
-app.listen(3001, () => {
+app.listen(process.env.PORT, () => {
   console.log("Express server has started");
 });

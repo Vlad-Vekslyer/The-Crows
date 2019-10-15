@@ -48,7 +48,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
 
   componentDidUpdate(prevProps: Props){
     if(this.props.eventId > 0 && prevProps.eventId !== this.props.eventId){
-      fetch(`/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
+      fetch(`https://localhost:3001/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
       .then(res => res.json())
       .then(res => {
         if(res.successChance) this.setState(res);
@@ -58,7 +58,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   }
 
   componentDidMount(){
-    fetch(`/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
+    fetch(`http://localhost:3001/api/combo?cardId=${this.props.id}&eventId=${this.props.eventId}`)
     .then(res => res.json())
     .then(res => this.setState(res))
     .catch(err => console.error(err));

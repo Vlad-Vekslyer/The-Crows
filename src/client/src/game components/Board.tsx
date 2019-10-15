@@ -157,7 +157,8 @@ class Board extends React.Component<Props, BoardState> {
 
   // makes initial API calls to receive all cards and events
   componentDidMount(){
-    fetch('/api/start')
+    // let request = new Request('http://localhost:3001/api/start',{headers:{'Access-Control-Allow-Origin': '*'}});
+    fetch('http://localhost:3001/api/start')
     .then(res => res.json())
     .then(res => {
       this.setState({
