@@ -156,7 +156,7 @@ class Board extends React.Component<Props, BoardState> {
 
   // makes initial API calls to receive all cards and events
   componentDidMount(){
-    fetch(`${process.env.REACT_APP_HOST}:${process.env.REACT_APP_PORT}/api/start`)
+    fetch(`/api/start`)
     .then(res => res.json())
     .then(res => {
       this.setState({
