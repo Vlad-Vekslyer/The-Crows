@@ -16,6 +16,7 @@ interface Props {
 }
 
 class CardDisplay extends React.Component<Props, ComboResponse>{
+  cardRef: React.RefObject<HTMLDivElement>;
   constructor(props: Props){
     super(props);
     this.state = {
@@ -23,6 +24,7 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
       resultDesc: "",
       effects: []
     }
+    this.cardRef = React.createRef();
     this.resolveHighProfile = this.resolveHighProfile.bind(this);
   }
 
@@ -67,18 +69,21 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
   render(){
     let disablingGameState: GameState[] = [GameState.lost, GameState.won, GameState.finishedEvent]
     return(
-      <style.StyledCard
+      <style.StyledCard ref={this.cardRef}
         isHighProfile={this.state.resultDesc.length === 2}
         onClick={() => {
           // if the current gameState does not prevent card selection
           if(disablingGameState.indexOf(this.props.gameState) === -1){
-            this.props.discard(this.props.card);
-            let resultDesc: string;
-            let effects: Effect;
-            // having multiple result descriptions means the combination is high profile
-            this.state.successChance ? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
-            this.props.appendToEvent(resultDesc);
-            this.props.effectExecution.exec(effects);
+            if(this.cardRef.current) this.cardRef.current.style.animation = `card-click 300ms linear`;
+            setTimeout(() => {
+              this.props.discard(this.props.card);
+              let resultDesc: string;
+              let effects: Effect;
+              // having multiple result descriptions means the combination is high profile
+              this.state.successChance ? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
+              this.props.appendToEvent(resultDesc);
+              this.props.effectExecution.exec(effects);
+            }, 300)
           }
       }}>
         <style.StyledCardHeader>{this.props.card.name}</style.StyledCardHeader>

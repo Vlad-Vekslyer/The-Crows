@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, {keyframes} from "styled-components"
 import {sizes} from "../style"
 import Assault from "../../assets/icons/Assault.png"
 import ArmedAssault from "../../assets/icons/ArmedAssault.png"
