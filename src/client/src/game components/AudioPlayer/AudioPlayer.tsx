@@ -6,7 +6,10 @@ const StyledAudioPlayer = styled.div`
     display: inline;
     position: absolute;
     @media(max-width:600px){
-      top: 350px;
+      top: 335px;
+    }
+    @media(max-width:410px){
+      top: 355px;
     }`
 
 const StyledButton = styled.button`
@@ -27,7 +30,7 @@ const StyledButton = styled.button`
     }`
 
 class AudioPlayer extends React.Component<{}, {isPaused: boolean}>{
-  constructor(props: Readonly<{}>){
+  constructor(props: {}){
       super(props);
       this.state = {
         isPaused: true

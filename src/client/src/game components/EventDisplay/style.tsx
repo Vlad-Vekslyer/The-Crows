@@ -29,4 +29,8 @@ export const StyledHeader = styled.header`
   font-family: Diplomata SC;
   color: #D4D4D4;
   font-size: 1.5em;
-  margin-bottom: 10px;`
+  margin-bottom: 10px;
+  @media(max-width:${sizes.small}px){
+    font-size: 1.1em;
+    margin-bottom : 0;
+  }`
