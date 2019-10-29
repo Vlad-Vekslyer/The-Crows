@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `card_gang` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `card_gang`;
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
 -- Host: localhost    Database: card_gang
@@ -30,7 +28,7 @@ CREATE TABLE `cards` (
   `image` varchar(128) DEFAULT NULL,
   `is_starter` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -60,7 +58,7 @@ CREATE TABLE `combinations` (
   KEY `event_id` (`event_id`),
   CONSTRAINT `combinations_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE,
   CONSTRAINT `combinations_ibfk_2` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +97,7 @@ CREATE TABLE `effects` (
   CONSTRAINT `effects_ibfk_2` FOREIGN KEY (`remove_event`) REFERENCES `events` (`id`) ON DELETE SET NULL,
   CONSTRAINT `effects_ibfk_3` FOREIGN KEY (`add_card`) REFERENCES `cards` (`id`) ON DELETE SET NULL,
   CONSTRAINT `effects_ibfk_4` FOREIGN KEY (`remove_card`) REFERENCES `cards` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +125,7 @@ CREATE TABLE `events` (
   `hidden_description` varchar(350) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `event_name` (`event_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +155,7 @@ CREATE TABLE `high_profile` (
   KEY `failure_result_id` (`failure_result_id`),
   CONSTRAINT `high_profile_ibfk_1` FOREIGN KEY (`success_result_id`) REFERENCES `results` (`id`) ON DELETE CASCADE,
   CONSTRAINT `high_profile_ibfk_2` FOREIGN KEY (`failure_result_id`) REFERENCES `results` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,14 +176,6 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `high_profile_list_insertion` AFTER INSERT ON `high_profile` FOR EACH ROW BEGIN
-INSERT INTO high_profile_list(high_profile_id, combination_id)
-    VALUES(NEW.id, (
-SELECT combination_id
-        FROM results
-        WHERE NEW.success_result_id = results.id
-    ));
-END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -206,7 +196,7 @@ CREATE TABLE `high_profile_list` (
   KEY `combination_id` (`combination_id`),
   CONSTRAINT `high_profile_list_ibfk_1` FOREIGN KEY (`high_profile_id`) REFERENCES `high_profile` (`id`) ON DELETE CASCADE,
   CONSTRAINT `high_profile_list_ibfk_2` FOREIGN KEY (`combination_id`) REFERENCES `combinations` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +226,7 @@ CREATE TABLE `results` (
   KEY `effect_id` (`effect_id`),
   CONSTRAINT `results_ibfk_1` FOREIGN KEY (`combination_id`) REFERENCES `combinations` (`id`) ON DELETE CASCADE,
   CONSTRAINT `results_ibfk_2` FOREIGN KEY (`effect_id`) REFERENCES `effects` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

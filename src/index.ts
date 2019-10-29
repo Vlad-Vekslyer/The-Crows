@@ -92,6 +92,6 @@ app.get("/api/event/:eventId", async (req, res) => {
   res.json(event);
 });
 
-app.listen(process.env.PORT as any, process.env.HOST,() => {
+app.listen(process.env.PORT as any,() => {
   console.log(`Express server has started on ${process.env.PORT}`);
 });

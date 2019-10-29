@@ -6,7 +6,7 @@ export default class Database {
   connection: mysql.Connection;
 
   constructor(){
-    this.connection = mysql.createConnection(config);
+    this.connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL || config);
   }
 
   query(sql: string, args?: string[]): Promise<any[]>{

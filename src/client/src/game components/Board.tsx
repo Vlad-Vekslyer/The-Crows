@@ -63,6 +63,7 @@ class Board extends React.Component<Props, BoardState> {
 
   // draw either up to three cards or up to specified number of cards
   drawCards(cardNum?: number): void{
+    this.props.cardDrawSound.play();
     this.setState(prevState => {
       if(cardNum && cardNum > 5) {cardNum = 5};
       let {hand, cardPool, cardDiscard} = prevState;
