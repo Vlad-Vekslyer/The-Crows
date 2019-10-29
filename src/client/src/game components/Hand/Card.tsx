@@ -74,16 +74,19 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
         onClick={() => {
           // if the current gameState does not prevent card selection
           if(disablingGameState.indexOf(this.props.gameState) === -1){
-            if(this.cardRef.current) this.cardRef.current.style.animation = `card-click 300ms linear`;
-            setTimeout(() => {
-              this.props.discard(this.props.card);
-              let resultDesc: string;
-              let effects: Effect;
-              // having multiple result descriptions means the combination is high profile
-              this.state.successChance ? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
-              this.props.appendToEvent(resultDesc);
-              this.props.effectExecution.exec(effects);
-            }, 300)
+            window.scrollTo(0,0);
+            if(this.cardRef.current) {
+              this.cardRef.current.style.animation = `card-click 200ms linear`;
+              this.cardRef.current.addEventListener('animationend', () => {
+                this.props.discard(this.props.card);
+                let resultDesc: string;
+                let effects: Effect;
+                // having multiple result descriptions means the combination is high profile
+                this.state.successChance ? ({resultDesc, effects} = this.resolveHighProfile()) : ({resultDesc, effects} = this.state as {resultDesc: string, effects: Effect});
+                this.props.appendToEvent(resultDesc);
+                this.props.effectExecution.exec(effects);
+              })
+            }
           }
       }}>
         <style.StyledCardHeader>{this.props.card.name}</style.StyledCardHeader>

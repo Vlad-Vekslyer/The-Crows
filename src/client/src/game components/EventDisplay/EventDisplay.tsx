@@ -56,7 +56,6 @@ function BasicEventDisplay(props: BaseEventProps){
   useEffect(() => {
     if(textArea.current) {
       textArea.current.scrollTo(0, textArea.current.scrollHeight);
-      window.scrollTo(0,0);
     }
   }, [props.event.description])
   return(
