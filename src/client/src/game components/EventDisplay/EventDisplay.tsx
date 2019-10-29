@@ -54,7 +54,10 @@ function BasicEventDisplay(props: BaseEventProps){
   let [isTextareaHovered, setHovered] = useState(false);
   // whenever the event text is appended, scroll to the bottom of the text
   useEffect(() => {
-    if(textArea.current) textArea.current.scrollTo(0, textArea.current.scrollHeight)
+    if(textArea.current) {
+      textArea.current.scrollTo(0, textArea.current.scrollHeight);
+      window.scrollTo(0,0);
+    }
   }, [props.event.description])
   return(
     <section id="top">

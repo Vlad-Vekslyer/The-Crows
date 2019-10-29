@@ -70,7 +70,6 @@ class CardDisplay extends React.Component<Props, ComboResponse>{
       <style.StyledCard
         isHighProfile={this.state.resultDesc.length === 2}
         onClick={() => {
-          window.scrollTo(0,0);
           // if the current gameState does not prevent card selection
           if(disablingGameState.indexOf(this.props.gameState) === -1){
             this.props.discard(this.props.card);
